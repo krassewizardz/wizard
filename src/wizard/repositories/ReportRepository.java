@@ -1,7 +1,9 @@
 package wizard.repositories;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import wizard.models.*;
+import wizard.models.AnnualPlan;
+import wizard.models.Situation;
+import wizard.models.Report;
 import wizard.services.DBServiceProvider;
 
 import java.util.ArrayList;
