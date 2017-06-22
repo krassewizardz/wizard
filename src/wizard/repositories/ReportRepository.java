@@ -1,9 +1,7 @@
 package wizard.repositories;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import wizard.models.AnnualPlan;
-import wizard.models.Situation;
-import wizard.models.Report;
+import wizard.models.*;
 import wizard.services.DBServiceProvider;
 
 import java.util.ArrayList;
@@ -25,6 +23,24 @@ public class ReportRepository {
     }
 
     public Report get(String profession, int yearOfTraining) {
+        /*
+            MOCK
+         */
+
+        final Situation situation = new Situation("1", "situationtest", 40, 1, 12);
+        final List<Situation> situations = new ArrayList<>();
+        situations.add(situation);
+
+        final Field field = new Field("1", "fieldtest", 1, situations);
+        final List<Field> fields = new ArrayList<>();
+        fields.add(field);
+
+        final Subject subject = new Subject("subtest", fields);
+        final List<Subject> subjects = new ArrayList<>();
+        subjects.add(subject);
+
+        final AnnualPlan annualPlan = new AnnualPlan(subjects);
+
         final Report rep = new Report(
                 yearOfTraining,
                 "testdep",
@@ -32,12 +48,11 @@ public class ReportRepository {
                 "testform",
                 "testdir"
         );
-        rep.setAnnualPlan(new AnnualPlan());
+        rep.setAnnualPlan(annualPlan);
         return rep;
     }
 
     public Report getDetails(Report rep) {
-        rep.setAnnualPlan(new AnnualPlan());
         return rep;
     }
 }
