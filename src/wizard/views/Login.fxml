@@ -5,23 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane
-        xmlns="http://javafx.com/javafx/8.0.112"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="wizard.controllers.Login"
-        prefWidth="960"
-        prefHeight="500"
->
-   <children>
-      <GridPane alignment="CENTER" hgap="15.0" vgap="15.0">
+<BorderPane prefHeight="500" prefWidth="960" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wizard.controllers.Login">
+   <center>
+      <GridPane alignment="CENTER" hgap="15.0" vgap="15.0" BorderPane.alignment="CENTER">
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -38,16 +30,16 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txt_user" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField fx:id="txt_pwd" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Benutzer" GridPane.rowIndex="1" />
             <Label text="Passwort" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button mnemonicParsing="false" text="Gastzugang" GridPane.rowIndex="3" />
+            <Button fx:id="btn_login" mnemonicParsing="false" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="btn_guest" mnemonicParsing="false" text="Gastzugang" GridPane.rowIndex="3" />
          </children>
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
       </GridPane>
-   </children>
-</AnchorPane>
+   </center>
+</BorderPane>
