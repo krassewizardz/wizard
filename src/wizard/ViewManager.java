@@ -81,7 +81,6 @@ public class ViewManager extends Application {
         } else {
             stage.getScene().setRoot(page);
         }
-
         stage.sizeToScene();
         return page;
     }

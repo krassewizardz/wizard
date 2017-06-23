@@ -16,11 +16,11 @@ public class OverviewController implements Initializable {
     private ViewManager viewManager = ViewManager.getInstance();
 
     @FXML
-    ComboBox yearChoiceBox, jobChoiceBox;
+    ComboBox yearChoiceBox, professionChoiceBox;
     @FXML
     Button backBtn, savePDFBtn;
     @FXML
-    Label titleLbl, jobLbl, yearLbl, configLbl;
+    Label titleLbl, professionLbl, yearLbl, configLbl;
     @FXML
     CheckBox firstCbx, secondCbx, thirdCbx, fourthCbx, fifthCbx, sixthCbx;
 
@@ -33,7 +33,7 @@ public class OverviewController implements Initializable {
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         titleLbl.setText("Übersicht");
-        jobLbl.setText("Ausbildungsberuf");
+        professionLbl.setText("Ausbildungsberuf");
         yearLbl.setText("Ausbildungsjahr");
         configLbl.setText("Konfiguration");
 
@@ -61,7 +61,7 @@ public class OverviewController implements Initializable {
         years.add("2");
         years.add("3");
 
-        jobChoiceBox.setItems(FXCollections.observableArrayList(jobs)
+        professionChoiceBox.setItems(FXCollections.observableArrayList(jobs)
         );
 
         yearChoiceBox.setItems(FXCollections.observableArrayList(years)
