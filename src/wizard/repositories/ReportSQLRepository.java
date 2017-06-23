@@ -46,7 +46,7 @@ public class ReportSQLRepository {
         final Report rep = new Report(
                 yearOfTraining,
                 "testdep",
-                profession,
+                new Profession(1, "testexpr"),
                 "testform",
                 "testdir"
         );
