@@ -54,6 +54,8 @@ fabric.properties
 *.war
 *.ear
 
+wizard_export.iml
+
 */bin
 *bin
 *.bin
