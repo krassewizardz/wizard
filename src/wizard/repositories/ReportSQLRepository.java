@@ -12,11 +12,11 @@ import java.util.List;
 /**
  * Created by jansziegaud on 22.06.17.
  */
-public class ReportRepository {
+public class ReportSQLRepository {
 
     DBServiceProvider dbService;
 
-    ReportRepository(DBServiceProvider dbService) {
+    ReportSQLRepository(DBServiceProvider dbService) {
         this.dbService = dbService;
     }
 

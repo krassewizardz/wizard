@@ -6,8 +6,10 @@ import java.util.List;
  * Created by jansziegaud on 22.06.17.
  */
 public interface Repository <T> {
-    T getById(String id);
-    List<T> getAll();
-    void save(T entity);
-    void update(T entity);
+    void add(T item);
+    void add(Iterable<T> items);
+    void update(T item);
+    void remove(T item);
+    void remove(Specification specification);
+    List<T> query(Specification specification);
 }
