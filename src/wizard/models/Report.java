@@ -6,11 +6,11 @@ public class Report {
 
     private int yearOfTraining;
     private String department; // Informationstechnik Industrie
-    private String profession; // Fachinformatiker/in Anwendungsentwicklung Ausbildungsjahr: 1
+    private Profession profession; // Fachinformatiker/in Anwendungsentwicklung Ausbildungsjahr: 1
     private String teachingForm; // Blockunterricht
     private String director; // Herr Gottwald
 
-    public Report(int yearOfTraining, String department, String profession, String teachingForm, String director) {
+    public Report(int yearOfTraining, String department, Profession profession, String teachingForm, String director) {
         this.yearOfTraining = yearOfTraining;
         this.department = department;
         this.profession = profession;

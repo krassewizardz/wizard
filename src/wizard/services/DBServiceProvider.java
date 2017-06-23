@@ -1,4 +1,5 @@
 package wizard.services;
 
-public interface DBServiceProvider {
+public interface DBServiceProvider<T> {
+    T open();
 }

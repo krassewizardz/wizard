@@ -10,6 +10,7 @@ public interface Repository <T> {
     void add(Iterable<T> items);
     void update(T item);
     void remove(T item);
-    void remove(Specification specification);
-    List<T> query(Specification specification);
+    void remove();
+    T get();
+    List<T> query();
 }
