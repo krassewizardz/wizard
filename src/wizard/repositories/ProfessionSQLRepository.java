@@ -12,11 +12,6 @@ import java.util.List;
 
 public class ProfessionSQLRepository {
 
-    private static final String TBLNAME_TBL_BERUF = "tbl_beruf";
-    private static final String TBL_BERUF_BERUFNAME = "Berufname";
-    private static final String TBL_BERUF_ID = "Bid";
-
-
     DBServiceProvider dbServiceProvider;
 
     public ProfessionSQLRepository(DBServiceProvider dbServiceProvider) {
@@ -26,9 +21,9 @@ public class ProfessionSQLRepository {
     List<Profession> getAllProfessionsWithId() {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             return con.createQuery(String.format("SELECT %1s AS name, %2s AS id FROM %3s;",
-                    TBL_BERUF_BERUFNAME,
-                    TBL_BERUF_ID,
-                    TBLNAME_TBL_BERUF)).executeAndFetch(Profession.class);
+                    Constants.PROFESSION_NAME,
+                    Constants.PROFESSION_ID,
+                    Constants.PROFESSION_TABLENAME)).executeAndFetch(Profession.class);
         }
     }
 }
