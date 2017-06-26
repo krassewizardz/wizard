@@ -33,7 +33,7 @@ public class ViewManager extends Application {
         return isLoggedIn;
     }
 
-    public void setisLoggedIn(boolean isLoggedIn) {
+    public void setIsLoggedIn(boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
     }
 
@@ -55,7 +55,7 @@ public class ViewManager extends Application {
 
     public void gotoLogin() {
         try {
-            setisLoggedIn(false);
+            setIsLoggedIn(false);
             replaceSceneContent(LOGIN);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -63,7 +63,7 @@ public class ViewManager extends Application {
         }
     }
 
-    public void gotoRegister() {
+    public void goToRegister() {
         try {
             replaceSceneContent(REGISTRATION);
         } catch (Exception ex) {

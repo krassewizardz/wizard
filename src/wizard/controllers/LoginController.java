@@ -43,9 +43,9 @@ public class LoginController implements Initializable {
 
             if(isValid) {
                 if(username.toLowerCase().equals("admin".toLowerCase())) {
-                    viewManager.gotoRegister();
+                    viewManager.goToRegister();
                 } else {
-                    viewManager.setisLoggedIn(true);
+                    viewManager.setIsLoggedIn(true);
                     viewManager.goToOverview();
                 }
             } else {
@@ -60,7 +60,7 @@ public class LoginController implements Initializable {
     }
 
     public void loginAsGuest(ActionEvent actionEvent) {
-        viewManager.setisLoggedIn(false);
+        viewManager.setIsLoggedIn(false);
         viewManager.goToOverview();
     }
 
