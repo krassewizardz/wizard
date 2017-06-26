@@ -4,14 +4,12 @@ public class Report {
 
     AnnualPlan annualPlan;
 
-    private int yearOfTraining; // Ausbildungsjahr: 1
     private String department; // Abteilung: Informationstechnik Industrie
     private Profession profession; // Beruf: Fachinformatiker/in Anwendungsentwicklung
     private String teachingForm; // Unterrichtsform: Blockunterricht
     private String director; // Leiter: Herr Gottwald
 
-    public Report(int yearOfTraining, String department, Profession profession, String teachingForm, String director) {
-        this.yearOfTraining = yearOfTraining;
+    public Report(String department, Profession profession, String teachingForm, String director) {
         this.department = department;
         this.profession = profession;
         this.teachingForm = teachingForm;
@@ -24,14 +22,6 @@ public class Report {
 
     public void setAnnualPlan(AnnualPlan annualPlan) {
         this.annualPlan = annualPlan;
-    }
-
-    public int getYearOfTraining() {
-        return yearOfTraining;
-    }
-
-    public void setYearOfTraining(int yearOfTraining) {
-        this.yearOfTraining = yearOfTraining;
     }
 
     public String getDepartment() {

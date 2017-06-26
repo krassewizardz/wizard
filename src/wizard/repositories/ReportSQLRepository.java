@@ -27,15 +27,16 @@ public class ReportSQLRepository {
     public Report get(Profession profession, int yearOfTraining) {
 
         final String getPflichtInformation =
-                "SELECT department."+Constants.DEPARTMENT_NAME +", t3."+ Constants.TBL_LEHRER_LEHRERNAME+", "
-                + "t3." + Constants.TBL_LEHRER_GESCHLECHT+", t4."+ Constants.TBL_UFORMBERUF_UFBJAHR+", t4."+ Constants.TBL_UFORMBERUF_UWOCHEN+", t5."+Constants.TBL_UFORM_UFORMNAME+" "
-                + "FROM `"+ Constants.PROFESSION_TABLENAME
-                + "` AS t1 JOIN `"+ Constants.DEPARTMENT_TABLENAME +"` AS department ON t1."+Constants.TBL_BERUF_ID_ABTEILUNG+"=t2."+ Constants.TBL_ABTEILUNG_ID
-                + " JOIN `"+ Constants.TBLNAME_TBL_LEHRER +"` AS t3 ON t1."+Constants.TBL_BERUF_ID_BLeitung+"=t3."+Constants.TBL_LEHRER_LID
-                + " JOIN `"+ Constants.TBLNAME_TBL_UFORMBERUF +"` AS t4 ON t1."+ Constants.PROFESSION_ID
-                + " JOIN `"+ Constants.TEACHINGFORM_TABLENAME +"` AS t5 ON t4."+ Constants.TBL_UFORMBERUF_ID_UFORM+"=t5."+Constants.TEACHINGFORM_ID + " "
-                + "WHERE " + Constants.PROFESSION_TABLENAME + "." + Constants.PROFESSION_ID + "= :profession_id "
-                + "AND " + Constants.TBLNAME_TBL_UFORMBERUF + "." + Constants.TBL_UFORMBERUF_UFBJAHR + "= :year_of_training;";
+                "select abteilungsname as department, lehrername as director, uformname as teachingForm " +
+                "from tbl_beruf " +
+                "join tbl_abteilung on aid = id_abteilung " +
+                "join tbl_lehrer on id_bleitung = lid " +
+                "join tbl_uformberuf on id_beruf = bid " +
+                "join tbl_uform on id_uform = uid " +
+                "join tbl_beruffach on id_uformberuf = ubid " +
+                "join tbl_fach on fid = id_fach " +
+                "where jahr = :year_of_training "+
+                "and bid = :profession_id;";
 
         try (Connection con = (Connection)dbService.open()) {
             return con.createQuery(getPflichtInformation)
@@ -43,9 +44,5 @@ public class ReportSQLRepository {
                     .addParameter("year_of_training", yearOfTraining)
                     .executeScalar(Report.class);
         }
-    }
-
-    public Report getDetails(Report rep) {
-        return rep;
     }
 }
