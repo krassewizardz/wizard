@@ -53,6 +53,7 @@ fabric.properties
 # Package Files #
 *.war
 *.ear
+!lib/
 
 wizard_export.iml
 
