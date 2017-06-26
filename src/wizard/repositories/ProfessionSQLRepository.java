@@ -20,7 +20,8 @@ public class ProfessionSQLRepository {
 
     List<Profession> getAllProfessionsWithId() {
         try (Connection con = (Connection)dbServiceProvider.open()) {
-            return con.createQuery(String.format("SELECT %1s AS name, %2s AS id FROM %3s;",
+            return con.createQuery(String.format("" +
+                            "SELECT %1s AS name, %2s AS id FROM %3s;",
                     Constants.PROFESSION_NAME,
                     Constants.PROFESSION_ID,
                     Constants.PROFESSION_TABLENAME)).executeAndFetch(Profession.class);

@@ -4,11 +4,11 @@ public class Report {
 
     AnnualPlan annualPlan;
 
-    private int yearOfTraining;
-    private String department; // Informationstechnik Industrie
-    private Profession profession; // Fachinformatiker/in Anwendungsentwicklung Ausbildungsjahr: 1
-    private String teachingForm; // Blockunterricht
-    private String director; // Herr Gottwald
+    private int yearOfTraining; // Ausbildungsjahr: 1
+    private String department; // Abteilung: Informationstechnik Industrie
+    private Profession profession; // Beruf: Fachinformatiker/in Anwendungsentwicklung
+    private String teachingForm; // Unterrichtsform: Blockunterricht
+    private String director; // Leiter: Herr Gottwald
 
     public Report(int yearOfTraining, String department, Profession profession, String teachingForm, String director) {
         this.yearOfTraining = yearOfTraining;

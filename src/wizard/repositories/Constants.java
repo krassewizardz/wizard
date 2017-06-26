@@ -12,6 +12,11 @@ public class Constants {
     public static final String DEPARTMENT_TABLENAME = "";
     public static final String DEPARTMENT_NAME = "";
 
+    public static final String SITUATION_TABLENAME = "tbl_lernsituation";
+
+    public static final String FIELD_TABLENAME = "tbl_lernfeld";
+    public static final String FIELD_ID = "LFID";
+
     public static final String TBL_LEHRER_LEHRERNAME = "";
     public static final String TBL_LEHRER_GESCHLECHT = "";
     public static final String TBL_UFORMBERUF_UFBJAHR = "";
