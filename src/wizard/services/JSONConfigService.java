@@ -17,6 +17,10 @@ public class JSONConfigService implements ConfigServiceProvider {
 
     JSONObject config;
 
+    public JSONConfigService(String source) {
+        loadFromFile(source);
+    }
+
     /**
      *
      * @param key Name of the key to get

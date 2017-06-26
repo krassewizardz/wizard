@@ -1,0 +1,18 @@
+{
+  "appTitle" : "Wizard",
+  "version" : "0.1",
+
+  "db" : {
+    "wizard" : {
+      "host" : "localhost",
+      "user" : "root",
+      "password" : "root"
+    },
+    "user" :  {
+      "url" : "jdbc:sqlite:db/Wizard.sqlite3",
+      "salt" : "efdßewg3gfvegdawü,veg"
+    }
+  }
+
+
+}
