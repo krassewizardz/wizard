@@ -19,7 +19,7 @@ public class FieldSQLRepository {
 
     public List<Field> getAllFieldsForSubject(Subject s) {
         try (Connection con = (Connection)dbServiceProvider.open()) {
-            con.createQuery(String.format("" +
+            return con.createQuery(String.format("" +
                     "SELECT * FROM %1s" +
                     "WHERE")).executeAndFetch(Field.class);
         }
