@@ -5,8 +5,8 @@ package wizard.models;
  */
 public class Profession {
 
-    private Integer id;
-    private String name;
+    private Integer id; // Id: 123
+    private String name; // Bezeichnung: Fachinformatiker bliblablupp
 
     public Profession(Integer id, String name) {
         this.id = id;
