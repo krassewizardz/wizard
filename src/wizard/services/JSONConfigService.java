@@ -143,9 +143,11 @@ public class JSONConfigService implements ConfigServiceProvider {
             String content = new String(rawContent);
             config = new JSONObject(content);
         } catch (IOException e) {
-            System.out.println("IOException: " + e); // TODO@all: handle this
+            System.out.println("IOException: " + e.getMessage()); // TODO@all: handle this
+            e.printStackTrace();
         } catch (JSONException e) {
-            System.out.println("JSONException: " + e); // TODO@all: handle this
+            System.out.println("JSONException: " + e.getMessage()); // TODO@all: handle this
+            e.printStackTrace();
         }
     }
 
@@ -162,9 +164,11 @@ public class JSONConfigService implements ConfigServiceProvider {
             fw.flush();
             fw.close();
         } catch (JSONException e) {
-            System.out.println("JSONException: " + e); // TODO@all: handle this
+            System.out.println("JSONException: " + e.getMessage()); // TODO@all: handle this
+            e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("IOException: " + e); // TODO@all: handle this
+            System.out.println("IOException: " + e.getMessage()); // TODO@all: handle this
+            e.printStackTrace();
         }
     }
 }
