@@ -19,6 +19,7 @@ public class ViewManager extends Application {
     private static final String REGISTRATION = "Registration";
     private static final String LOGIN = "Login";
     private static final String OVERVIEW = "Overview";
+    private static final String MAIN = "Main";
 
     public ViewManager() {
         viewManager = this;
@@ -75,7 +76,7 @@ public class ViewManager extends Application {
         Scene scene = stage.getScene();
         if (scene == null) {
             scene = new Scene(page);
-            scene.getStylesheets().add(getClass().getResource("views/" + view + ".css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("views/" + MAIN + ".css").toExternalForm());
             stage.setScene(scene);
             stage.setTitle("Fancy Title");
         } else {
