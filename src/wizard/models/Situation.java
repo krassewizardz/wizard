@@ -66,7 +66,6 @@ public class Situation {
         this.end = end;
     }
 
-
     public String getScenario() {
         return scenario;
     }

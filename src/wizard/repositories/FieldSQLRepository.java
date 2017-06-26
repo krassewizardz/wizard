@@ -21,7 +21,8 @@ public class FieldSQLRepository {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             return con.createQuery(String.format("" +
                     "SELECT * FROM %1s" +
-                    "WHERE")).executeAndFetch(Field.class);
+                    "WHERE"))
+                    .executeAndFetch(Field.class);
         }
     }
 }

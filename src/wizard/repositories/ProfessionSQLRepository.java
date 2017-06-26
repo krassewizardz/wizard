@@ -20,11 +20,22 @@ public class ProfessionSQLRepository {
 
     List<Profession> getAllProfessionsWithId() {
         try (Connection con = (Connection)dbServiceProvider.open()) {
-            return con.createQuery(String.format("" +
-                            "SELECT %1s AS name, %2s AS id FROM %3s;",
+            return con.createQuery(String.format(
+                            "SELECT %1s AS name, %2s AS id " +
+                            "FROM %3s" +
+                            "JOIN tbl_uformberuf ON tbl_uformberuf.id_beruf = %2s;",
                     Constants.PROFESSION_NAME,
                     Constants.PROFESSION_ID,
-                    Constants.PROFESSION_TABLENAME)).executeAndFetch(Profession.class);
+                    Constants.PROFESSION_TABLENAME))
+                    .executeAndFetch(Profession.class);
+        }
+    }
+
+    Profession getProfessionDetails() {
+        try (Connection con = (Connection)dbServiceProvider.open()) {
+            return con.createQuery(String.format(
+                    "SELECT "
+            )).executeScalar(Profession.class);
         }
     }
 }

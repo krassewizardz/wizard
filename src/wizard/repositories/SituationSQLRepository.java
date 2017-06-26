@@ -25,8 +25,9 @@ public class SituationSQLRepository {
                                 "WHERE LFID = :field_id;",
                     Constants.SITUATION_TABLENAME,
                     Constants.FIELD_TABLENAME,
-                    Constants.FIELD_ID,
-                    f.getId())).executeAndFetch(Situation.class);
+                    Constants.FIELD_ID))
+                    .addParameter("field_id", f.getId())
+                    .executeAndFetch(Situation.class);
         }
     }
 }

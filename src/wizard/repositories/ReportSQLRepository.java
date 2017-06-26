@@ -26,7 +26,7 @@ public class ReportSQLRepository {
 
     public Report get(Profession profession, int yearOfTraining) {
 
-        final String getPflichtInformation =
+        final String getMainInformation =
                 "select abteilungsname as department, lehrername as director, uformname as teachingForm " +
                 "from tbl_beruf " +
                 "join tbl_abteilung on aid = id_abteilung " +
@@ -39,7 +39,7 @@ public class ReportSQLRepository {
                 "and bid = :profession_id;";
 
         try (Connection con = (Connection)dbService.open()) {
-            return con.createQuery(getPflichtInformation)
+            return con.createQuery(getMainInformation)
                     .addParameter("profession_id", profession.getId())
                     .addParameter("year_of_training", yearOfTraining)
                     .executeScalar(Report.class);
