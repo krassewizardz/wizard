@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import wizard.utility.KeyNotFoundException;
 
 
 /**
@@ -27,7 +28,7 @@ public class JSONConfigService implements ConfigServiceProvider {
      * @return Either the value or null
      */
     @Override
-    public String get(String key) {
+    public String get(String key) throws KeyNotFoundException {
 
         try {
 
@@ -53,7 +54,7 @@ public class JSONConfigService implements ConfigServiceProvider {
             }
 
         } catch (JSONException e) {
-            return null;
+            throw new KeyNotFoundException(String.format("Key '%1s' could not be found", key));
         }
     }
 
@@ -63,7 +64,7 @@ public class JSONConfigService implements ConfigServiceProvider {
      * @param value
      * @param <pType>
      */
-    private <pType> void _set(String key, pType value) {
+    private <pType> void _set(String key, pType value) throws KeyNotFoundException {
         try {
             if ( key.contains(".") && !key.endsWith(".") ) {
 
@@ -89,17 +90,17 @@ public class JSONConfigService implements ConfigServiceProvider {
                 config.put(key, value);
             }
         } catch (JSONException e) {
-            return; // todo@all: (maybe) handle this
+            throw new KeyNotFoundException(String.format("Key '%1s' could not be found", key));
         }
     }
 
     /**
-     *
+     *Exception
      * @param key Name of the key
      * @param value Value to set
      */
     @Override
-    public void set(String key, Boolean value) {
+    public void set(String key, Boolean value) throws KeyNotFoundException {
         _set(key, value);
     }
 
@@ -109,7 +110,7 @@ public class JSONConfigService implements ConfigServiceProvider {
      * @param value Value to set
      */
     @Override
-    public void set(String key, String value) {
+    public void set(String key, String value) throws KeyNotFoundException {
         _set(key, value);
     }
 
@@ -119,7 +120,7 @@ public class JSONConfigService implements ConfigServiceProvider {
      * @param value Value to set
      */
     @Override
-    public void set(String key, Integer value) {
+    public void set(String key, Integer value) throws KeyNotFoundException {
         _set(key, value);
     }
 
@@ -129,7 +130,7 @@ public class JSONConfigService implements ConfigServiceProvider {
      * @param value Value to set
      */
     @Override
-    public void set(String key, Double value) {
+    public void set(String key, Double value) throws KeyNotFoundException {
         _set(key, value);
     }
 
