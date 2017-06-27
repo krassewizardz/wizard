@@ -96,7 +96,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
 
                     try {
 
-                        user.validate();
+                        user.validate(true);
 
                         q
                         .addParameter("name", user.getName())
