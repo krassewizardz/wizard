@@ -4,6 +4,7 @@ import org.sql2o.Connection;
 import wizard.models.Field;
 import wizard.models.Achievement;
 import wizard.models.Situation;
+import wizard.models.Technique;
 import wizard.services.DBServiceProvider;
 
 import java.util.List;
@@ -44,6 +45,18 @@ public class SituationSQLRepository {
                     "where lsid = :situation_id"))
                     .addParameter("situation_id", s.getId())
                     .executeAndFetch(Achievement.class);
+        }
+    }
+
+    public List<Technique> getAllTechniques(Situation s) {
+        try (Connection con = (Connection)dbServiceProvider.open()) {
+            return con.createQuery(String.format(
+                    "select distinct technik, name from tbl_lerntechnik\n" +
+                    "join tbl_lernsituationlerntechnik on latid = ID_Lerntechnik\n" +
+                    "join tbl_lernsituation on ID_Lernsituation = lsid\n" +
+                    "where lsid = :situation_id;"))
+                    .addParameter("sitation_id", s.getId())
+                    .executeAndFetch(Technique.class);
         }
     }
 }

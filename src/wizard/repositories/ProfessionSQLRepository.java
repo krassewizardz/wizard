@@ -22,9 +22,9 @@ public class ProfessionSQLRepository {
         try (Connection con = (Connection) dbServiceProvider.open()) {
             return con.createQuery(String.format(
                     "SELECT berufname AS name, bid AS id, jahr as yearOfTraining " +
-                            "FROM tbl_beruf " +
-                            "JOIN tbl_uformberuf on bid = id_beruf " +
-                            "JOIN tbl_beruffach on id_uformberuf = ubid"))
+                    "FROM tbl_beruf " +
+                    "JOIN tbl_uformberuf on bid = id_beruf " +
+                    "JOIN tbl_beruffach on id_uformberuf = ubid"))
                     .executeAndFetch(Profession.class);
         }
     }
