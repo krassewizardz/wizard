@@ -18,12 +18,12 @@ public class ProfessionSQLRepository {
         this.dbServiceProvider = dbServiceProvider;
     }
 
-    List<Profession> getAllProfessionsWithId() {
+    public List<Profession> getAllProfessionsWithId() {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             return con.createQuery(String.format(
-                            "SELECT %1s AS name, %2s AS id " +
-                            "FROM %3s" +
-                            "JOIN tbl_uformberuf ON tbl_uformberuf.id_beruf = %2s;",
+                            "SELECT %1s AS name, bid AS id, jahr as yearOfTraining " +
+                            "FROM tbl_beruf " + "JOIN tbl_uformberuf on bid = id_beruf JOIN tbl_beruffach on id_uformberuf = ubid",
+
                     Constants.PROFESSION_NAME,
                     Constants.PROFESSION_ID,
                     Constants.PROFESSION_TABLENAME))
@@ -31,7 +31,7 @@ public class ProfessionSQLRepository {
         }
     }
 
-    Profession getProfessionDetails() {
+    public Profession getProfessionDetails() {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             return con.createQuery(String.format(
                     "SELECT "
