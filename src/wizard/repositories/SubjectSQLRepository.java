@@ -24,12 +24,12 @@ public class SubjectSQLRepository {
     public List<Subject> getAllSubjectsForProfession(Profession p) {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             return con.createQuery(String.format(
-                    "select bezeichnung as name, fid as id " +
-                    "from tbl_fach " +
-                    "join tbl_beruffach on fid = id_fach " +
-                    "join tbl_uformberuf on id_uformberuf = ubid " +
-                    "join tbl_beruf on id_beruf = bid " +
-                    "where bid = :profession_id" +
+                    "select bezeichnung as name, fid as id\n" +
+                    "from tbl_fach\n" +
+                    "join tbl_beruffach on fid = id_fach\n" +
+                    "join tbl_uformberuf on id_uformberuf = ubid\n" +
+                    "join tbl_beruf on id_beruf = bid\n" +
+                    "where bid = :profession_id " +
                     "and jahr = :year_of_training;"
                     ))
                     .addParameter("profession_id", p.getId())
