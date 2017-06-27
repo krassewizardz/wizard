@@ -24,6 +24,13 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
 
     Integer lastInsertId = null;
 
+    public static enum Column {
+        ID,
+        NAME,
+        USERNAME,
+        PASSWORD
+    }
+
     public static UserRepository getInstance() {
         if (instance == null) {
             instance = new UserRepository();
@@ -264,48 +271,29 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      */
     @Override
     public User get(Integer id) {
-        try {
 
-            Connection c = getDBHC();
+        List<User> result = get(Column.ID, id);
 
-            List<User> r = c.createQuery(
-                    "select * from `Users` " +
-                            "where id=:id"
-            )
-            .addParameter("id", id)
-            .executeAndFetch(User.class);
+        if (result.size() == 0)
+            return result.get(0);
 
-            if (!r.isEmpty())
-                return r.get(0);
-
-        } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return new User(null, null, null);
+        return new User(null, null,null);
     }
 
-    /**
-     * *Should* work... - probably doesn't.
-     * @param query The querystring. May include Sql2o style formatted params, such as :id
-     * @param params A number of QueryParam objects that consist of a name:value pair
-     * @return A list of user models, if applicable
-     */
-    @Override
-    public List<User> query(String query, QueryParam... params) {
+    public List<User> get(Column column, Object value) {
+
         try {
 
             Connection c = getDBHC();
 
-            Query q = c.createQuery(
-                query
-            );
+            List<User> result = c.createQuery(
+                    "select * from `Users` " +
+                            "where " + column.name().toLowerCase() +" =:value"
+            )
+            .addParameter("value", value)
+            .executeAndFetch(User.class);
 
-            for ( QueryParam param : params )
-                q.addParameter(param.name, param.value);
-
-            return q.executeAndFetch(User.class);
+            return result;
 
         } catch (Sql2oException e) {
             System.out.println("Sql2oException: " + e.getMessage());

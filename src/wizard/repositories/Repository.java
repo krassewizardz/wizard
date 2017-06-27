@@ -18,5 +18,4 @@ public interface Repository <T> {
     void flush();
     List<T> get();
     T get(Integer id);
-    List<T> query(String query, QueryParam... params);
 }
