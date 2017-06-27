@@ -17,7 +17,7 @@ public class Situation {
     private String content; // Erstellen einer Aufgabenliste zur Einrichtung des ... wall of text
     private String materials; // Unterrichtsmaterialien;
     private String comments; // OrganisatorischeHinweise;
-    private String techniques; // LernUndArbeitstechniken;
+    private List<Technique> techniques; // LernUndArbeitstechniken;
     private List<Achievement> achievements; // Achievement;
 
     public Situation(int id, String name, int duration, int start, int end) {
@@ -116,11 +116,11 @@ public class Situation {
         this.comments = comments;
     }
 
-    public String getTechniques() {
+    public List<Technique> getTechniques() {
         return techniques;
     }
 
-    public void setTechniques(String techniques) {
+    public void setTechniques(List<Technique> techniques) {
         this.techniques = techniques;
     }
 

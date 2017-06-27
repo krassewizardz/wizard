@@ -21,7 +21,7 @@ public class SituationSQLRepository {
 
     public List<Situation> getAllSitutationsForField(Field f) {
         try (Connection con = (Connection)dbServiceProvider.open()) {
-            return con.createQuery(String.format(
+            final List<Situation> situations = con.createQuery(String.format(
                     "select distinct lsid as id, name, Szenario as scenario," +
                     "udauer as duration, von as start, bis as end, handlungsprodukt as outcome," +
                     "kompetenzen as competences, inhalte as content, umaterial as materials\n" +
@@ -33,6 +33,11 @@ public class SituationSQLRepository {
                     Constants.FIELD_ID))
                     .addParameter("field_id", f.getId())
                     .executeAndFetch(Situation.class);
+            for (Situation s: situations) {
+                s.setAchievements(this.getAllAchievments(s));
+                s.setTechniques(this.getAllTechniques(s));
+            }
+            return situations;
         }
     }
     public List<Achievement> getAllAchievments(Situation s) {
