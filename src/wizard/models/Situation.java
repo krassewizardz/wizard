@@ -18,7 +18,7 @@ public class Situation {
     private String materials; // Unterrichtsmaterialien;
     private String comments; // OrganisatorischeHinweise;
     private String techniques; // LernUndArbeitstechniken;
-    private List<Achievment> achievments; // Achievment;
+    private List<Achievement> achievements; // Achievement;
 
     public Situation(int id, String name, int duration, int start, int end) {
         this.id = id;
@@ -124,11 +124,11 @@ public class Situation {
         this.techniques = techniques;
     }
 
-    public List<Achievment> getAchievment() {
-        return achievment;
+    public List<Achievement> getAchievements() {
+        return achievements;
     }
 
-    public void setAchievment(List<Achievment> achievment) {
-        this.achievment = achievment;
+    public void setAchievements(List<Achievement> achievement) {
+        this.achievements = achievement;
     }
 }
