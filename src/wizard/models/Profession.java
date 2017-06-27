@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class Profession {
 
-    private Integer id; // Id: 123
+    private int id; // Id: 123
     private String name; // Bezeichnung: Fachinformatiker bliblablupp
     private int yearOfTraining; // Das Ausbildungsjahr
     private List<Subject> subjects;

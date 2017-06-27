@@ -4,7 +4,7 @@ package wizard.models;
  * Created by jansziegaud on 22.06.17.
  */
 public class Situation {
-    private String id;
+    private int id;
     private String name;
     private int duration;
     private int start;
@@ -18,7 +18,7 @@ public class Situation {
     private String techniques; // LernUndArbeitstechniken;
     private String achievment; // Leistungsnachweis;
 
-    public Situation(String id, String name, int duration, int start, int end) {
+    public Situation(int id, String name, int duration, int start, int end) {
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -26,11 +26,11 @@ public class Situation {
         this.end = end;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

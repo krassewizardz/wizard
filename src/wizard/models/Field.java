@@ -7,17 +7,16 @@ import java.util.List;
  */
 public class Field { // Lernfelder
 
-    private String id;
-    private int num;
+    private int id;
     private String name;
     private int duration;
     List<Situation> situations;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -45,7 +44,7 @@ public class Field { // Lernfelder
         this.situations = situations;
     }
 
-    public Field(String id, String name, int duration, List<Situation> situations) {
+    public Field(int id, String name, int duration, List<Situation> situations) {
 
         this.id = id;
         this.name = name;
