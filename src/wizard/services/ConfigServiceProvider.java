@@ -1,6 +1,9 @@
 package wizard.services;
 
-
+/**
+ *  @author F. Engels
+ *  TODO@all: add documentation
+ */
 public interface ConfigServiceProvider {
     String get(String k) throws Exception;
     void set(String k, Boolean v) throws Exception;
