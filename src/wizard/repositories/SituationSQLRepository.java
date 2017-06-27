@@ -17,12 +17,15 @@ public class SituationSQLRepository {
         this.dbServiceProvider = dbServiceProvider;
     }
 
-    List<Situation> getAllSitutationsForField(Field f) {
+    public List<Situation> getAllSitutationsForField(Field f) {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             return con.createQuery(String.format(
-                                "SELECT * FROM %1s " +
-                                "JOIN %2s ON %1s.LF_NR = %2s.%3s " +
-                                "WHERE LFID = :field_id;",
+                    "select distinct lsid as id, name, Szenario as scenario," +
+                    "udauer as duration, von as start, bis as end, handlungsprodukt as outcome," +
+                    "kompetenzen as competences, inhalte as content, umaterial as materials\n" +
+                    "from tbl_lernsituation\n" +
+                    "join tbl_lernfeld on id_lernfeld = lfid\n" +
+                    "where lfid = :field_id;",
                     Constants.SITUATION_TABLENAME,
                     Constants.FIELD_TABLENAME,
                     Constants.FIELD_ID))
