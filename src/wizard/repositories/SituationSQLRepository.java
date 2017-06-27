@@ -7,6 +7,7 @@ import wizard.models.Situation;
 import wizard.models.Technique;
 import wizard.services.DBServiceProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class SituationSQLRepository {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             final List<Situation> situations = con.createQuery(String.format(
                     "select distinct lsid as id, name, Szenario as scenario," +
-                    "udauer as duration, von as start, bis as end, handlungsprodukt as outcome," +
+                    "ustunden as duration, von as start, bis as end, handlungsprodukt as outcome," +
                     "kompetenzen as competences, inhalte as content, umaterial as materials\n" +
                     "from tbl_lernsituation\n" +
                     "join tbl_lernfeld on id_lernfeld = lfid\n" +
@@ -33,13 +34,14 @@ public class SituationSQLRepository {
                     Constants.FIELD_ID))
                     .addParameter("field_id", f.getId())
                     .executeAndFetch(Situation.class);
-            for (Situation s: situations) {
+            for (Situation s : situations) {
                 s.setAchievements(this.getAllAchievments(s));
                 s.setTechniques(this.getAllTechniques(s));
             }
             return situations;
         }
     }
+
     public List<Achievement> getAllAchievments(Situation s) {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             return con.createQuery(String.format(
@@ -56,11 +58,11 @@ public class SituationSQLRepository {
     public List<Technique> getAllTechniques(Situation s) {
         try (Connection con = (Connection)dbServiceProvider.open()) {
             return con.createQuery(String.format(
-                    "select distinct technik, name from tbl_lerntechnik\n" +
+                    "select distinct latid as id, technik as name from tbl_lerntechnik\n" +
                     "join tbl_lernsituationlerntechnik on latid = ID_Lerntechnik\n" +
                     "join tbl_lernsituation on ID_Lernsituation = lsid\n" +
-                    "where lsid = :situation_id;"))
-                    .addParameter("sitation_id", s.getId())
+                    "where lsid = :situation_id"))
+                    .addParameter("situation_id", s.getId())
                     .executeAndFetch(Technique.class);
         }
     }
