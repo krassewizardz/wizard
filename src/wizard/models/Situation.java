@@ -1,5 +1,7 @@
 package wizard.models;
 
+import java.util.List;
+
 /**
  * Created by jansziegaud on 22.06.17.
  */
@@ -16,7 +18,7 @@ public class Situation {
     private String materials; // Unterrichtsmaterialien;
     private String comments; // OrganisatorischeHinweise;
     private String techniques; // LernUndArbeitstechniken;
-    private String achievment; // Leistungsnachweis;
+    private List<Achievment> achievments; // Achievment;
 
     public Situation(int id, String name, int duration, int start, int end) {
         this.id = id;
@@ -122,11 +124,11 @@ public class Situation {
         this.techniques = techniques;
     }
 
-    public String getAchievment() {
+    public List<Achievment> getAchievment() {
         return achievment;
     }
 
-    public void setAchievment(String achievment) {
+    public void setAchievment(List<Achievment> achievment) {
         this.achievment = achievment;
     }
 }

@@ -40,7 +40,11 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      */
     private static String getDBUrl() {
         JSONConfigService config = new JSONConfigService("config.json");
-        return config.get("db.user.url");
+        try {
+            return config.get("db.user.url");
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     /**

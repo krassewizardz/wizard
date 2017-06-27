@@ -7,7 +7,7 @@ public class Constants {
 
     public static final String PROFESSION_TABLENAME = "tbl_beruf";
     public static final String PROFESSION_NAME = "Berufname";
-    public static final String PROFESSION_ID = "Bid";
+    public static final String PROFESSION_ID = "bid";
 
     public static final String DEPARTMENT_TABLENAME = "";
     public static final String DEPARTMENT_NAME = "";

@@ -2,6 +2,7 @@ package wizard.repositories;
 
 import org.sql2o.Connection;
 import wizard.models.Field;
+import wizard.models.Achievment;
 import wizard.models.Situation;
 import wizard.services.DBServiceProvider;
 
@@ -31,6 +32,18 @@ public class SituationSQLRepository {
                     Constants.FIELD_ID))
                     .addParameter("field_id", f.getId())
                     .executeAndFetch(Situation.class);
+        }
+    }
+    public List<Achievment> getAllAchievments(Situation s) {
+        try (Connection con = (Connection)dbServiceProvider.open()) {
+            return con.createQuery(String.format(
+                    "select distinct lnid as id, art as name\n" +
+                    "from tbl_leistungsnachweis\n" +
+                    "join tbl_lernsituationleistungsnachweis on ID_Leistungsnachweis = lnid\n" +
+                    "join tbl_lernsituation on ID_Lernsituation = lsid\n" +
+                    "where lsid = :situation_id"))
+                    .addParameter("situation_id", s.getId())
+                    .executeAndFetch(Achievment.class);
         }
     }
 }

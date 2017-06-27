@@ -19,23 +19,13 @@ public class ProfessionSQLRepository {
     }
 
     public List<Profession> getAllProfessionsWithId() {
-        try (Connection con = (Connection)dbServiceProvider.open()) {
+        try (Connection con = (Connection) dbServiceProvider.open()) {
             return con.createQuery(String.format(
-                            "SELECT %1s AS name, bid AS id, jahr as yearOfTraining " +
-                            "FROM tbl_beruf " + "JOIN tbl_uformberuf on bid = id_beruf JOIN tbl_beruffach on id_uformberuf = ubid",
-
-                    Constants.PROFESSION_NAME,
-                    Constants.PROFESSION_ID,
-                    Constants.PROFESSION_TABLENAME))
+                    "SELECT berufname AS name, bid AS id, jahr as yearOfTraining " +
+                            "FROM tbl_beruf " +
+                            "JOIN tbl_uformberuf on bid = id_beruf " +
+                            "JOIN tbl_beruffach on id_uformberuf = ubid"))
                     .executeAndFetch(Profession.class);
-        }
-    }
-
-    public Profession getProfessionDetails() {
-        try (Connection con = (Connection)dbServiceProvider.open()) {
-            return con.createQuery(String.format(
-                    "SELECT "
-            )).executeScalar(Profession.class);
         }
     }
 }
