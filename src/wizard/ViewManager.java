@@ -18,7 +18,7 @@ public class ViewManager extends Application {
 
     private static final String REGISTRATION = "Registration";
     private static final String LOGIN = "Login";
-    private static final String OVERVIEW = "Overview";
+    private static final String OVERVIEW = "Overview1";
     private static final String MAIN = "Main";
 
     public ViewManager() {

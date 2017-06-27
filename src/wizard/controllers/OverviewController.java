@@ -28,7 +28,7 @@ public class OverviewController implements Initializable {
     GridPane rightGrid;
 
     private ObservableList<String> years;
-    private ObservableList<String> jobs;
+    private ObservableList<String> professions;
 
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -48,20 +48,20 @@ public class OverviewController implements Initializable {
         backBtn.setText("Zurück");
         savePDFBtn.setText("Als PDF speichern");
 
-        jobs = FXCollections.observableArrayList();
+        professions = FXCollections.observableArrayList();
         years = FXCollections.observableArrayList();
 
-        //TODO jobs aus DB
-        jobs.add("Fachinformatiker Anwendungsentwicklung");
-        jobs.add("Fachinformatiker Systemintegration");
-        jobs.add("Systemelektroniker");
+        //TODO professions aus DB
+        professions.add("Fachinformatiker Anwendungsentwicklung");
+        professions.add("Fachinformatiker Systemintegration");
+        professions.add("Systemelektroniker");
 
         //TODO ausbildungsjahre aus db
         years.add("1");
         years.add("2");
         years.add("3");
 
-        professionChoiceBox.setItems(FXCollections.observableArrayList(jobs)
+        professionChoiceBox.setItems(FXCollections.observableArrayList(professions)
         );
 
         yearChoiceBox.setItems(FXCollections.observableArrayList(years)
