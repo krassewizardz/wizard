@@ -6,4 +6,9 @@ package wizard.models;
 public class Achievement {
     int id;
     String name;
+
+    public Achievement(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
