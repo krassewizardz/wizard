@@ -1,6 +1,8 @@
 package wizard.models;
 
+import wizard.services.JSONConfigService;
 import wizard.utility.InvalidModelException;
+import wizard.utility.KeyNotFoundException;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -35,12 +37,17 @@ public class User {
     public void setPassword(String password) {
 
         try {
+            JSONConfigService config = new JSONConfigService("config.json");
+            password = password + config.get("db.user.salt");
             byte[] bytes = password.getBytes(Charset.forName("UTF-8"));
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] thedigest = md.digest(bytes);
             this.password = thedigest.toString();
         } catch (NoSuchAlgorithmException e) {
             System.out.println("NoSuchAlgorithmException: " + e.getMessage());
+            e.printStackTrace();
+        } catch (KeyNotFoundException e) {
+            System.out.println("KeyNotFoundException: " + e.getMessage());
             e.printStackTrace();
         }
     }
