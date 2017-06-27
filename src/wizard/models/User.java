@@ -55,8 +55,16 @@ public class User {
         return (id != null && name != null && username != null && password != null );
     }
 
+    public Boolean isValid(boolean allowEmptyId) {
+        return ((id != null || allowEmptyId) && name != null && username != null && password != null );
+    }
+
     public void validate() throws InvalidModelException {
         if (!isValid()) throw new InvalidModelException("Model validation failed");
+    }
+
+    public void validate(boolean allowEmptyId) throws InvalidModelException {
+        if (!isValid(allowEmptyId)) throw new InvalidModelException("Model validation failed");
     }
 
 }
