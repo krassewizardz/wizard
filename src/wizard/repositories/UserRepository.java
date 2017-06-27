@@ -6,6 +6,7 @@ import org.sql2o.Sql2oException;
 import wizard.utility.InvalidModelException;
 import wizard.models.User;
 import wizard.services.JSONConfigService;
+import wizard.utility.KeyNotFoundException;
 import wizard.utility.QueryParam;
 
 import java.util.ArrayList;
@@ -39,8 +40,14 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * @return
      */
     private static String getDBUrl() {
-        JSONConfigService config = new JSONConfigService("config.json");
-        return config.get("db.user.url");
+        try {
+            JSONConfigService config = new JSONConfigService("config.json");
+            return config.get("db.user.url");
+        } catch (KeyNotFoundException e) {
+            System.out.println("NoSuchAlgorithmException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
