@@ -21,6 +21,8 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
 
     private static UserRepository instance;
 
+    Integer lastInsertId = null;
+
     public static UserRepository getInstance() {
         if (instance == null) {
             instance = new UserRepository();
@@ -49,18 +51,22 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     public void add(User user) {
         try {
 
-            user.validate();
+            user.validate(true);
 
             Connection c = getDBHC();
 
-            c.createQuery(
+            this.lastInsertId = (Integer) c.createQuery(
             "insert into `Users` (name, username, password) " +
                      "values (:name, :username, :password)"
             )
             .addParameter("name", user.getName())
             .addParameter("username", user.getUsername())
             .addParameter("password", user.getPassword())
-            .executeUpdate();
+            .executeUpdate().getKey();
+
+            c.getResult();
+
+            user.setId(this.lastInsertId);
 
         } catch (Sql2oException e) {
             System.out.println("Sql2oException: " + e.getMessage());
@@ -90,7 +96,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
 
                     try {
 
-                        user.validate();
+                        user.validate(true);
 
                         q
                         .addParameter("name", user.getName())
@@ -162,7 +168,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             Connection c = getDBHC();
 
             c.createQuery(
-                    "delete * from `Users` " +
+                    "delete from `Users` " +
                             "where id=:id"
             )
             .addParameter("id", id)
