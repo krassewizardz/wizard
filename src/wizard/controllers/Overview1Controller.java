@@ -138,7 +138,7 @@ public class Overview1Controller implements Initializable {
         viewManager.display(ViewManager.View.LOGIN);
     }
 
-    public void savePDF() throws Exception {
+    public void savePDF() {
         Configuration configuration = new Configuration();
         if(viewManager.isLoggedIn()) {
             configuration.setScenario(scenarioCbx.isSelected());
@@ -162,8 +162,8 @@ public class Overview1Controller implements Initializable {
             generator.exportToFile(getReport(), selectedDirectory.toString(), new User("NAME", "USERNAME", "PASSWORD"));
 
         }catch(Exception ex) {
-            throw ex;
-}
+            ex.printStackTrace();
+        }
         System.out.println("Should save PDF with settings now");
         System.out.println("Get complete data and save as pdf");
     }
@@ -218,7 +218,7 @@ public class Overview1Controller implements Initializable {
                 return report;
             }
         }
-        return report;
+        return null;
     }
 
     public void getSubject() {
