@@ -198,21 +198,15 @@ public class Overview1Controller implements Initializable {
         for(Profession profession : professionList){
             if(profession.getName().equals(selectedProfession)) {
                 subjects = subjectSQLRepository.getAllSubjectsForProfession(profession);
+                profession.setSubjects(subjects);
                 for(Subject subject : subjects){
                     fields = fieldSQLRepository.getAllFieldsForSubject(subject);
+                    subject.setFields(fields);
                     for(Field field : fields){
                         situations = situationSQLRepository.getAllSitutationsForField(field);
-                        /*for(Situation situation : situations){
-                            situation.setAchievements(situationSQLRepository.getAllAchievments(situation));
-                            situation.setTechniques(situationSQLRepository.getAllTechniques(situation));
-                        }
-                        */
                         field.setSituations(situations);
                     }
-                    subject.setFields(fields);
                 }
-               // profession.setYearOfTraining((Integer.parseInt(selectedYear)));
-               // profession.setSubjects(subjectSQLRepository.getAllSubjectsForProfession(profession));
                 Report report =  reportSQLRepository.get(profession, Integer.parseInt(selectedYear));
                 report.setProfession(profession);
                 return report;
