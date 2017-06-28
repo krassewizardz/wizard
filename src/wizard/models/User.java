@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *  @author F. Engels
- *  TODO@all: description
+ *  TODO@all: add documentation
  */
 public class User {
 

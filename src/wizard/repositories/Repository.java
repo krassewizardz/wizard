@@ -8,7 +8,7 @@ import java.util.List;
 /**
  *  @author J. Sziegaud
  *  @author F. Engels
- *  TODO@all: description
+ *  TODO@all: add documentation
  */
 public interface Repository <T> {
     void add(T item);
