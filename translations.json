@@ -1,0 +1,14 @@
+{
+  "de" : {
+
+    "view_login" : "Login",
+    "view_overview" : "Übersicht",
+    "view_main" : "Übersicht",
+    "view_registration" : "Neuen Benutzer registrieren",
+
+    "lbl_username" : "Benutzer",
+    "lbl_password" : "Passwort",
+    "lbl_guestLogin" : "Gastzugang",
+    "btn_login" : "Login"
+  }
+}
