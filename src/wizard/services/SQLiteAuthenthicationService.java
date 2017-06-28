@@ -66,4 +66,8 @@ public class SQLiteAuthenthicationService implements AuthenticationServiceProvid
         return currentUser;
     }
 
+    public boolean hasValidLogin() {
+        return (currentUser != null);
+    }
+
 }
