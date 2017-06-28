@@ -3,7 +3,7 @@ package wizard.utility;
 
 /**
  *  @author F. Engels
- *  TODO@all: add documentation
+ *  TODO@all: description
  */
 public class InvalidModelException extends Exception {
 

@@ -1,13 +1,10 @@
 package wizard.repositories;
 
 import org.sql2o.Connection;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import wizard.models.Field;
 import wizard.models.Profession;
 import wizard.models.Subject;
 import wizard.services.DBServiceProvider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

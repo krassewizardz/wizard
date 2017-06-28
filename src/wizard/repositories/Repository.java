@@ -1,14 +1,12 @@
 package wizard.repositories;
 
-
-
 import java.util.List;
 
 
 /**
  *  @author J. Sziegaud
  *  @author F. Engels
- *  TODO@all: add documentation
+ *  TODO@all: description
  */
 public interface Repository <T> {
     void add(T item);

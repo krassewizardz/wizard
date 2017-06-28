@@ -1,7 +1,7 @@
 {
   "appTitle" : "Wizard",
   "version" : "0.1",
-  "language" : "de",
+
   "db" : {
     "wizard" : {
       "host" : "localhost",
@@ -13,4 +13,6 @@
       "salt" : "efdßewg3gfvegdawü,veg"
     }
   }
+
+
 }

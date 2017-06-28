@@ -15,7 +15,7 @@ import java.util.List;
 /**
  *  @author J. Sziegaud
  *  @author F. Engels
- *  TODO@all: add documentation
+ *  TODO@all: description
  */
 public class UserRepository extends SQLiteRepository implements Repository<User> {
 
@@ -50,7 +50,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             JSONConfigService config = new JSONConfigService("config.json");
             return config.get("db.user.url");
         } catch (KeyNotFoundException e) {
-            System.out.println("KeyNotFoundException: " + e.getMessage());
+            System.out.println("NoSuchAlgorithmException: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
