@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import wizard.ViewManager;
+import wizard.services.JSONConfigService;
+import wizard.services.SQLiteAuthenthicationService;
+import wizard.services.TranslationService;
+import wizard.utility.KeyNotFoundException;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,7 +16,7 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
 
     @FXML
-    public Label titleLbl, usernameLbl, passwordLbl;
+    public Label loginLbl, usernameLbl, passwordLbl, messageLbl;
 
     @FXML
     public TextField usernameTxt;
@@ -27,46 +31,41 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        titleLbl.setText("Login");
-        usernameLbl.setText("Benutzername");
-        passwordLbl.setText("Passwort");
-        guestBtn.setText("Gastlogin");
-        loginBtn.setText("Login");
+        loginLbl.setText(TranslationService.translate("btn_login"));
+        usernameLbl.setText(TranslationService.translate("lbl_username"));
+        passwordLbl.setText(TranslationService.translate("lbl_password"));
+        guestBtn.setText(TranslationService.translate("lbl_guestLogin"));
+        loginBtn.setText(TranslationService.translate("btn_login"));
     }
 
-    public void login(ActionEvent actionEvent) {
-        try {
-            String username = usernameTxt.getText();
-            System.out.println(username);
-            String password = passwordTxt.getText();
-            boolean isValid = this.validateUserInput(username, password);
+    public void onLogin() {
+        if (formIsValid()) {
 
-            if(isValid) {
-                if(username.toLowerCase().equals("admin".toLowerCase())) {
-                    viewManager.display(ViewManager.View.REGISTRATION);
-                } else {
-                    viewManager.setIsLoggedIn(true);
-                    viewManager.display(ViewManager.View.OVERVIEW);
-                }
+            if (
+                    SQLiteAuthenthicationService.getInstance()
+                    .login(usernameTxt.getText(), passwordTxt.getText())
+            ) {
+                ViewManager.getInstance().display(ViewManager.View.OVERVIEW);
             } else {
-                //TODO Fehlermeldung ausgeben
-                System.out.println("Falsche benutzerdaten");
+                messageLbl.setText(TranslationService.translate("error_login_invalid"));
             }
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace());
-            e.printStackTrace();
+
         }
-
     }
 
-    public void loginAsGuest(ActionEvent actionEvent) {
-        viewManager.setIsLoggedIn(false);
-        viewManager.display(ViewManager.View.OVERVIEW);
+    public void onGuestLogin() {
+        ViewManager vm = ViewManager.getInstance();
+        vm.setGuestMode(true);
+        vm.display(ViewManager.View.OVERVIEW);
     }
 
-    public boolean validateUserInput(String username, String password) {
-        //TODO mit userdatenbank validieren
-        return true;
+    public boolean formIsValid() {
+        return (usernameTxt.getText().length() >= 4 && passwordTxt.getText().length() >= 4);
+    }
+
+    public void updateFormValidationState() {
+        messageLbl.setText("");
+        loginBtn.setDisable(!formIsValid());
     }
 
 }

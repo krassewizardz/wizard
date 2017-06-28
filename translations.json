@@ -9,6 +9,8 @@
     "lbl_username" : "Benutzer",
     "lbl_password" : "Passwort",
     "lbl_guestLogin" : "Gastzugang",
-    "btn_login" : "Login"
+    "btn_login" : "Login",
+
+    "error_login_invalid" : "Benutzername oder Passwort inkorrekt"
   }
 }
