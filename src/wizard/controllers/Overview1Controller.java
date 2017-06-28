@@ -23,7 +23,6 @@ import wizard.repositories.*;
 import wizard.services.SQL2ODBServiceProvider;
 import wizard.services.SQLiteAuthenthicationService;
 
-import javax.xml.bind.annotation.XmlAnyAttribute;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -113,8 +112,7 @@ public class Overview1Controller implements Initializable {
         SQLiteAuthenthicationService sqLiteAuthenthicationService = SQLiteAuthenthicationService.getInstance();
         currentUser = sqLiteAuthenthicationService.getLoggedInUser();
 
-        //TODO if logged in: load userconfig
-        if(currentUser != null) {
+        if(viewManager.isLoggedIn()) {
             List<Configuration> userConfigurations = currentUser.getConfigurations();
             for(Configuration configuration : userConfigurations) {
                 configurationList.add(configuration.getName());
@@ -220,8 +218,6 @@ public class Overview1Controller implements Initializable {
     }
 
     public void getSubject() {
-        System.out.println("get called");
-        String id;
         SubjectSQLRepository subjectSQLRepository = new SubjectSQLRepository(sql2ODBServiceProvider);
         List<Subject> subjectList = new ArrayList<>();
 
@@ -244,6 +240,13 @@ public class Overview1Controller implements Initializable {
     }
 
     public void saveConfiguration() {
+        List<Configuration> configurations = currentUser.getConfigurations();
+        for(Configuration configuration : configurations) {
+            if(configuration.getName().equals(configNameTxt.getText())) {
+                return;
+            }
+        }
+
         Configuration configuration = new Configuration(
                 configNameTxt.getText(),
                 currentUser.getId(),
@@ -257,8 +260,10 @@ public class Overview1Controller implements Initializable {
                 achievementsCbx.isSelected()
         );
 
+        System.out.println("Should save configuration to user");
+        System.out.println("Should load configuration again");
+
         //TODO service to save config for user
-        //TODO do not save config when name already exists
         //TODO reload config
     }
 
