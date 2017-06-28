@@ -3,6 +3,7 @@ package wizard.repositories;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2oException;
+import wizard.models.Configuration;
 import wizard.utility.InvalidModelException;
 import wizard.models.User;
 import wizard.services.JSONConfigService;
@@ -10,6 +11,7 @@ import wizard.utility.KeyNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -86,6 +88,32 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             e.printStackTrace();
         } catch (InvalidModelException e) {
             System.out.println("InvalidModelException: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void add(Configuration config, User u) {
+        try {
+            Connection c = getDBHC();
+            c.createQuery(
+                    "insert into templates(" +
+                            "user_id, name, scenario, outcome, competence, " +
+                            "content, materials, comments, techniques, achievements)\n" +
+                            "values (:user_id, :name, :scenario, :outcome, :competence, " +
+                            ":content, :materials, :comments, :techniques, :achievements)")
+                    .addParameter("user_id", u.getId())
+                    .addParameter("name", config.getName())
+                    .addParameter("scenario", boolToInt(config.isScenario()))
+                    .addParameter("outcome", boolToInt(config.isOutcome()))
+                    .addParameter("competence", boolToInt(config.isCompetence()))
+                    .addParameter("content", boolToInt(config.isContent()))
+                    .addParameter("materials", boolToInt(config.isMaterials()))
+                    .addParameter("comments", boolToInt(config.isComments()))
+                    .addParameter("techniques", boolToInt(config.isTechniques()))
+                    .addParameter("achievements", boolToInt(config.isAchievements()))
+                    .executeUpdate();
+        } catch (Sql2oException e) {
+            System.out.println("Sql2oException: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -277,6 +305,50 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             return result.get(0);
 
         return new User(null, null,null);
+    }
+
+    public List<Configuration> get(User u) {
+        try {
+            Connection c = getDBHC();
+            List<Map<String, Object>> rawconfigurations = c.createQuery(
+                    "SELECT id, name, scenario, outcome, " +
+                    "competence, content, materials, comments, techniques, achievments\n" +
+                    "FROM templates\n" +
+                    "WHERE user_id = :user_id")
+                    .addParameter("user_id", u.getId())
+                    .executeAndFetchTable()
+                    .asList();
+
+            List<Configuration> configurations = new ArrayList<>();
+            for (Map<String, Object> config : rawconfigurations) {
+                configurations.add(new Configuration(
+                        (int)config.get("id"),
+                        (String)config.get("name"),
+                        u.getId(),
+                        intToBool((int)config.get("scenario")),
+                        intToBool((int)config.get("outcome")),
+                        intToBool((int)config.get("competence")),
+                        intToBool((int)config.get("content")),
+                        intToBool((int)config.get("materials")),
+                        intToBool((int)config.get("comments")),
+                        intToBool((int)config.get("techniques")),
+                        intToBool((int)config.get("achievements"))
+                ));
+            }
+            return configurations;
+        } catch (Sql2oException e) {
+            System.out.println("Sql2oException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    private int boolToInt(boolean b) {
+        return b ? 1 : 0;
+    }
+
+    private boolean intToBool(int i) {
+        return i != 0;
     }
 
     public List<User> get(Column column, Object value) {
