@@ -31,11 +31,11 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        loginLbl.setText(TranslationService.translate("btn_login"));
-        usernameLbl.setText(TranslationService.translate("lbl_username"));
-        passwordLbl.setText(TranslationService.translate("lbl_password"));
-        guestBtn.setText(TranslationService.translate("lbl_guestLogin"));
-        loginBtn.setText(TranslationService.translate("btn_login"));
+        loginLbl.setText(TranslationService.translate("views.login.loginLbl"));
+        usernameLbl.setText(TranslationService.translate("views.login.usernameLbl"));
+        passwordLbl.setText(TranslationService.translate("views.login.passwordLbl"));
+        guestBtn.setText(TranslationService.translate("views.login.guestBtn"));
+        loginBtn.setText(TranslationService.translate("views.login.loginBtn"));
     }
 
     public void onLogin() {

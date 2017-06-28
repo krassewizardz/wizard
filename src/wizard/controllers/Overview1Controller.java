@@ -23,6 +23,7 @@ import wizard.repositories.*;
 import wizard.services.AuthenticationServiceProvider;
 import wizard.services.SQL2ODBServiceProvider;
 import wizard.services.SQLiteAuthenthicationService;
+import wizard.services.TranslationService;
 
 import java.io.File;
 import java.net.URL;
@@ -68,28 +69,28 @@ public class Overview1Controller implements Initializable {
 
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        titleLbl.setText("Übersicht");
-        yearLbl.setText("Ausbildungsjahr");
-        professionLbl.setText("Ausbildungsberuf");
-        configLbl.setText("Konfiguration");
-        loadConfigLbl.setText("Konfiguration laden");
-        configNameLbl.setText("Name");
+        titleLbl.setText(TranslationService.translate("views.overview.titleLbl"));
+        yearLbl.setText(TranslationService.translate("views.overview.yearLbl"));
+        professionLbl.setText(TranslationService.translate("views.overview.professionLbl"));
+        configLbl.setText(TranslationService.translate("views.overview.configLbl"));
+        loadConfigLbl.setText(TranslationService.translate("views.overview.loadConfigLbl"));
+        configNameLbl.setText(TranslationService.translate("views.overview.configNameLbl"));
 
-        mainColumn.setText("Lernbereiche");
+        mainColumn.setText(TranslationService.translate("views.overview.mainColumn"));
 
-        scenarioCbx.setText("Szenario");
-        outcomeCbx.setText("Outcome");
-        competencesCbx.setText("Kompetenzen");
-        contentCbx.setText("Inhalt");
-        materialsCbx.setText("Materialien");
-        commentsCbx.setText("Kommentare");
-        techniquesCbx.setText("Techniken");
-        achievementsCbx.setText("Achievements");
+        scenarioCbx.setText(TranslationService.translate("views.overview.scenarioCbx"));
+        outcomeCbx.setText(TranslationService.translate("views.overview.outcomeCbx"));
+        competencesCbx.setText(TranslationService.translate("views.overview.competencesCbx"));
+        contentCbx.setText(TranslationService.translate("views.overview.contentCbx"));
+        materialsCbx.setText(TranslationService.translate("views.overview.materialsCbx"));
+        commentsCbx.setText(TranslationService.translate("views.overview.commentsCbx"));
+        techniquesCbx.setText(TranslationService.translate("views.overview.techniquesCbx"));
+        achievementsCbx.setText(TranslationService.translate("views.overview.achievementsCbx"));
         configGrid.setVisible(SQLiteAuthenthicationService.getInstance().hasValidLogin());
 
-        backBtn.setText("Zurück");
-        savePDFBtn.setText("Als PDF speichern");
-        saveConfigurationBtn.setText("Konfiguration speichern");
+        backBtn.setText(TranslationService.translate("views.overview.backBtn"));
+        savePDFBtn.setText(TranslationService.translate("views.overview.savePDFBtn"));
+        saveConfigurationBtn.setText(TranslationService.translate("views.overview.saveConfigurationBtn"));
 
         professionObservableList = FXCollections.observableArrayList();
         yearObservableList = FXCollections.observableArrayList();
@@ -204,9 +205,17 @@ public class Overview1Controller implements Initializable {
                     subject.setFields(fields);
                     for(Field field : fields){
                         situations = situationSQLRepository.getAllSitutationsForField(field);
+                        /*for(Situation situation : situations){
+                            situation.setAchievements(situationSQLRepository.getAllAchievments(situation));
+                            situation.setTechniques(situationSQLRepository.getAllTechniques(situation));
+                        }
+                        */
                         field.setSituations(situations);
                     }
+                    subject.setFields(fields);
                 }
+                // profession.setYearOfTraining((Integer.parseInt(selectedYear)));
+                // profession.setSubjects(subjectSQLRepository.getAllSubjectsForProfession(profession));
                 Report report =  reportSQLRepository.get(profession, Integer.parseInt(selectedYear));
                 report.setProfession(profession);
                 return report;

@@ -4,7 +4,7 @@
   "language" : "de",
   "db" : {
     "wizard" : {
-      "host" : "localhost",
+      "host" : "mysql://localhost:3306/didakt",
       "user" : "root",
       "password" : "root"
     },

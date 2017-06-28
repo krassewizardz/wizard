@@ -27,8 +27,7 @@ public class ViewManager {
     public enum View {
         REGISTRATION,
         LOGIN,
-        OVERVIEW,
-        MAIN
+        OVERVIEW
     }
 
     static Scene sRegistration = null;
@@ -86,7 +85,7 @@ public class ViewManager {
                 }
 
                 stage.setScene(sRegistration);
-                stage.setTitle("Registration");
+                stage.setTitle(appTitle + " - " + TranslationService.translate("views.registration.title"));
 
                 break;
             case LOGIN:
@@ -99,7 +98,7 @@ public class ViewManager {
                 }
 
                 stage.setScene(sLogin);
-                stage.setTitle(appTitle + " - " + TranslationService.translate("view_login"));
+                stage.setTitle(appTitle + " - " + TranslationService.translate("views.login.title"));
 
                 break;
             case OVERVIEW:
@@ -112,20 +111,7 @@ public class ViewManager {
                 }
 
                 stage.setScene(sOverview);
-                stage.setTitle(appTitle + " - " + TranslationService.translate("view_overview"));
-
-                break;
-            case MAIN:
-
-                if (sMain == null) {
-                    sMain = loadSceneFromFile("views/" + "Main" + ".fxml");
-                    sMain.getStylesheets().add(
-                            getClass().getResource("views/" + "Main" + ".css").toExternalForm()
-                    );
-                }
-
-                stage.setScene(sMain);
-                stage.setTitle(appTitle + " - " + TranslationService.translate("view_main"));
+                stage.setTitle(appTitle + " - " + TranslationService.translate("views.overview.title"));
 
                 break;
         }

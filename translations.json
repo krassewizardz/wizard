@@ -1,16 +1,92 @@
 {
   "de" : {
+    "views" : {
+      "login" : {
+        "title": "Login",
+        "loginLbl" : "Login",
+        "usernameLbl" : "Benutzer",
+        "passwordLbl" : "Passwort",
+        "guestBtn" : "Gastzugang",
+        "loginBtn" : "Login",
+        "messageLbl" : "Benutzername oder Passwort falsch"
+      },
 
-    "view_login" : "Login",
-    "view_overview" : "Übersicht",
-    "view_main" : "Übersicht",
-    "view_registration" : "Neuen Benutzer registrieren",
+      "overview" : {
+        "title" : "Übersicht",
+        "titleLbl" : "Übersicht",
+        "yearLbl" : "Ausbildungsjahr",
+        "professionLbl" : "Ausbildungsberuf",
+        "configLbl" : "Konfiguration",
+        "loadConfigLbl" : "Konfiguration laden",
+        "configNameLbl" : "Name",
+        "mainColumn" : "Lernbereiche",
+        "scenarioCbx" : "Szenario",
+        "outcomeCbx" : "Outcome",
+        "competencesCbx" : "Kompetenzen",
+        "contentCbx" : "Inhalt",
+        "materialsCbx" : "Materialien",
+        "commentsCbx" : "Kommentare",
+        "techniquesCbx" : "Techniken",
+        "achievementsCbx" : "Achievements",
+        "backBtn" : "Zurück",
+        "savePDFBtn" : "Als PDF speichern",
+        "saveConfigurationBtn" : "Konfiguration speichern"
+      },
+      "registration" : {
+        "title" : "Registrierung",
+        "titleLbl" : "Benutzer anlegen",
+        "registerBtn" : "Anlegen",
+        "backBtn" : "Zurück",
+        "usernameLbl" : "Benutzername",
+        "passwordLbl" : "Passwort",
+        "passwordRepeatLbl" : "Passwort wiederholen"
 
-    "lbl_username" : "Benutzer",
-    "lbl_password" : "Passwort",
-    "lbl_guestLogin" : "Gastzugang",
-    "btn_login" : "Login",
+      }
+    }
+  },
 
-    "error_login_invalid" : "Benutzername oder Passwort inkorrekt"
+  "en": {
+    "views" : {
+      "login" : {
+        "title": "Login",
+        "loginLbl" : "Login",
+        "usernameLbl" : "User",
+        "passwordLbl" : "Password",
+        "guestBtn" : "Guest",
+        "loginBtn" : "Login",
+        "messageLbl" : "Wrong username or password"
+      },
+
+      "overview" : {
+        "title" : "Overview",
+        "titleLbl" : "Overview",
+        "yearLbl" : "Year of Training",
+        "professionLbl" : "Profession",
+        "configLbl" : "Configuration",
+        "loadConfigLbl" : "Load configuration",
+        "configNameLbl" : "Name",
+        "mainColumn" : "Learning field",
+        "scenarioCbx" : "Szenario",
+        "outcomeCbx" : "Outcome",
+        "competencesCbx" : "Competences",
+        "contentCbx" : "Content",
+        "materialsCbx" : "Materials",
+        "commentsCbx" : "Comments",
+        "techniquesCbx" : "Techniques",
+        "achievementsCbx" : "Achievements",
+        "backBtn" : "back",
+        "savePDFBtn" : "Save as PDF",
+        "saveConfigurationBtn" : "Save configuration"
+      },
+      "registration" : {
+        "title" : "Registration",
+        "titleLbl" : "Create User",
+        "registerBtn" : "Create",
+        "backBtn" : "Back",
+        "usernameLbl" : "Username",
+        "passwordLbl" : "Password",
+        "passwordRepeatLbl" : "Repeat password"
+      }
+    }
   }
 }
