@@ -18,16 +18,16 @@ import java.util.List;
  */
 public class SQLiteAuthenthicationService implements AuthenticationServiceProvider {
 
-    private static SQLiteAuthenthicationService instace = null;
+    private static SQLiteAuthenthicationService instance = null;
     private User currentUser = null;
 
     private SQLiteAuthenthicationService() {}
 
     public static SQLiteAuthenthicationService getInstance() {
-        if (instace == null)
-            instace = new SQLiteAuthenthicationService();
+        if (instance == null)
+            instance = new SQLiteAuthenthicationService();
 
-        return instace;
+        return instance;
     }
 
     @Override
