@@ -94,7 +94,7 @@ public class ViewManager {
             case OVERVIEW:
 
                 if (sOverview == null) {
-                    sOverview = loadSceneFromFile("views/" + "Overview" + ".fxml");
+                    sOverview = loadSceneFromFile("views/" + "Overview1" + ".fxml");
                     sOverview.getStylesheets().add(
                             getClass().getResource("views/" + "Main" + ".css").toExternalForm()
                     );
