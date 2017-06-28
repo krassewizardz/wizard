@@ -140,6 +140,17 @@ public class Overview1Controller implements Initializable {
     }
 
     public void savePDF() {
+        Configuration configuration = new Configuration();
+        if(viewManager.isLoggedIn()) {
+            configuration.setScenario(scenarioCbx.isSelected());
+            configuration.setOutcome(outcomeCbx.isSelected());
+            configuration.setCompetence(competencesCbx.isSelected());
+            configuration.setContent(contentCbx.isSelected());
+            configuration.setMaterials(materialsCbx.isSelected());
+            configuration.setComments(commentsCbx.isSelected());
+            configuration.setTechniques(techniquesCbx.isSelected());
+            configuration.setAchievements(achievementsCbx.isSelected());
+        }
         DirectoryChooser chooser = new DirectoryChooser();
         Stage stage = new Stage(    );
         File defaultDirectory = new File("C:/");
@@ -245,7 +256,6 @@ public class Overview1Controller implements Initializable {
                 techniquesCbx.isSelected(),
                 achievementsCbx.isSelected()
         );
-
 
         //TODO service to save config for user
         //TODO do not save config when name already exists
