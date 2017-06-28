@@ -112,12 +112,13 @@ public class Overview1Controller implements Initializable {
         SQLiteAuthenthicationService sqLiteAuthenthicationService = SQLiteAuthenthicationService.getInstance();
         currentUser = sqLiteAuthenthicationService.getLoggedInUser();
 
-        if(viewManager.isLoggedIn()) {
+        //TODO funktioniert erst, wenn userservice ordentlich läuft
+        /*if(viewManager.isLoggedIn()) {
             List<Configuration> userConfigurations = currentUser.getConfigurations();
             for(Configuration configuration : userConfigurations) {
                 configurationList.add(configuration.getName());
             }
-        }
+        }*/
 
         professionComboBox.setItems(FXCollections.observableArrayList(professionObservableList));
         yearComboBox.setItems(FXCollections.observableArrayList(yearObservableList));
