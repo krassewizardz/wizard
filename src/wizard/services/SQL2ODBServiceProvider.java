@@ -11,7 +11,7 @@ public class SQL2ODBServiceProvider implements DBServiceProvider<Connection> {
     private static Sql2o sql2o;
 
     static {
-        sql2o = new Sql2o("");
+        sql2o = new Sql2o("mysql://localhost:3306/didakt", "root", "");
     }
 
     @Override

@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import wizard.ViewManager;
 import wizard.models.Configuration;
 import wizard.models.Profession;
@@ -15,10 +17,14 @@ import wizard.models.Subject;
 import wizard.models.User;
 import wizard.repositories.ProfessionSQLRepository;
 import wizard.repositories.SubjectSQLRepository;
+import wizard.models.*;
+import wizard.pdf.PdfGenerator;
+import wizard.repositories.*;
 import wizard.services.SQL2ODBServiceProvider;
 import wizard.services.SQLiteAuthenthicationService;
 
 import javax.xml.bind.annotation.XmlAnyAttribute;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +35,7 @@ public class Overview1Controller implements Initializable {
     private ViewManager viewManager = ViewManager.getInstance();
     private String selectedYear;
     private String selectedProfession;
+    private Report report;
     private User currentUser;
 
     @FXML
@@ -133,6 +140,20 @@ public class Overview1Controller implements Initializable {
     }
 
     public void savePDF() {
+        DirectoryChooser chooser = new DirectoryChooser();
+        Stage stage = new Stage(    );
+        File defaultDirectory = new File("C:/");
+        chooser.setInitialDirectory(defaultDirectory);
+        File selectedDirectory = chooser.showDialog(stage);
+        UserRepository userRepository = UserRepository.getInstance();
+
+        PdfGenerator generator = new PdfGenerator();
+        try{
+            generator.exportToFile(getReport(), selectedDirectory.toString(), new User("NAME", "USERNAME", "PASSWORD"));
+
+        }catch(Exception ex) {
+
+}
         System.out.println("Should save PDF with settings now");
         System.out.println("Get complete data and save as pdf");
     }
@@ -140,18 +161,56 @@ public class Overview1Controller implements Initializable {
     public void chooseYear() {
         selectedYear = yearComboBox.getSelectionModel().getSelectedItem().toString();
         if (selectedProfession != null) {
-            getSubjects();
+            getSubject();
         }
     }
 
     public void chooseProfession() {
         selectedProfession = professionComboBox.getSelectionModel().getSelectedItem().toString();
         if (selectedYear != null) {
-            getSubjects();
+            getSubject();
         }
     }
 
-    public void getSubjects() {
+    public Report getReport(){
+        SubjectSQLRepository subjectSQLRepository = new SubjectSQLRepository(sql2ODBServiceProvider);
+        ReportSQLRepository reportSQLRepository = new ReportSQLRepository(sql2ODBServiceProvider);
+        ProfessionSQLRepository professionSQLRepository = new ProfessionSQLRepository(sql2ODBServiceProvider);
+        FieldSQLRepository fieldSQLRepository = new FieldSQLRepository(sql2ODBServiceProvider);
+        SituationSQLRepository situationSQLRepository = new SituationSQLRepository(sql2ODBServiceProvider);
+
+        List<Subject> subjects;
+        List<Field> fields ;
+        List<Situation> situations ;
+
+
+        for(Profession profession : professionSQLRepository.getAllProfessionsWithId()){
+            if(profession.getName().equals(selectedProfession)) {
+                subjects = subjectSQLRepository.getAllSubjectsForProfession(profession);
+                for(Subject subject : subjects){
+                    fields = fieldSQLRepository.getAllFieldsForSubject(subject);
+                    for(Field field : fields){
+                        situations = situationSQLRepository.getAllSitutationsForField(field);
+                        /*for(Situation situation : situations){
+                            situation.setAchievements(situationSQLRepository.getAllAchievments(situation));
+                            situation.setTechniques(situationSQLRepository.getAllTechniques(situation));
+                        }
+                        */
+                        field.setSituations(situations);
+                    }
+                    subject.setFields(fields);
+                }
+               // profession.setYearOfTraining((Integer.parseInt(selectedYear)));
+               // profession.setSubjects(subjectSQLRepository.getAllSubjectsForProfession(profession));
+                return report = reportSQLRepository.get(profession, Integer.parseInt(selectedYear));
+            }
+        }
+        return report;
+    }
+
+    public void getSubject() {
+        System.out.println("get called");
+        String id;
         SubjectSQLRepository subjectSQLRepository = new SubjectSQLRepository(sql2ODBServiceProvider);
         List<Subject> subjectList = new ArrayList<>();
 

@@ -16,7 +16,7 @@ public class ReportSQLRepository {
 
     DBServiceProvider dbService;
 
-    ReportSQLRepository(DBServiceProvider dbService) {
+    public ReportSQLRepository(DBServiceProvider dbService) {
         this.dbService = dbService;
     }
 

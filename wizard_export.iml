@@ -37,5 +37,7 @@
         <jarDirectory url="file://$MODULE_DIR$/lib/sqlite-jdbc" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="mysql-connector-java-5.1.42-bin" level="project" />
+    <orderEntry type="library" name="com.itextpdf:itextpdf:5.5.11" level="project" />
   </component>
 </module>
