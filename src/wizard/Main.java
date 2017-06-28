@@ -1,13 +1,15 @@
 package wizard;
 
 import javafx.application.Application;
+import javafx.stage.Stage;
 
 
-public class Main {
+public class Main extends Application {
 
-    public static void main(String[] args) {
-        // TODO@all: refactor this
-        Application.launch(ViewManager.class, (java.lang.String[])null);
+    @Override
+    public void start(Stage stage) throws Exception {
+        ViewManager vm = ViewManager.getInstance();
+        vm.setPrimaryStage(stage);
+        vm.display(ViewManager.View.LOGIN);
     }
-
 }

@@ -43,10 +43,10 @@ public class LoginController implements Initializable {
 
             if(isValid) {
                 if(username.toLowerCase().equals("admin".toLowerCase())) {
-                    viewManager.goToRegister();
+                    viewManager.display(ViewManager.View.REGISTRATION);
                 } else {
                     viewManager.setIsLoggedIn(true);
-                    viewManager.goToOverview();
+                    viewManager.display(ViewManager.View.OVERVIEW);
                 }
             } else {
                 //TODO Fehlermeldung ausgeben
@@ -61,7 +61,7 @@ public class LoginController implements Initializable {
 
     public void loginAsGuest(ActionEvent actionEvent) {
         viewManager.setIsLoggedIn(false);
-        viewManager.goToOverview();
+        viewManager.display(ViewManager.View.OVERVIEW);
     }
 
     public boolean validateUserInput(String username, String password) {

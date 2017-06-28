@@ -71,7 +71,7 @@ public class OverviewController implements Initializable {
     }
 
     public void back() {
-        viewManager.gotoLogin();
+        viewManager.display(ViewManager.View.LOGIN);
     }
 
     public void savePDF() {

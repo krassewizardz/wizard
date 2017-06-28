@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 /**
  * Created by fpr on 23.06.2017.
  */
+
 public class RegistrationController implements Initializable {
 
     @FXML
@@ -43,7 +44,7 @@ public class RegistrationController implements Initializable {
     }
 
     public void back() {
-        viewManager.gotoLogin();
+        viewManager.display(ViewManager.View.LOGIN);
     }
 
     public void register() {

@@ -7,26 +7,121 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
+
 /**
- * Created by fpr on 22.06.2017.
+ *  @author F. Prinz
+ *  @author F. Engels
+ *  TODO@all: add documentation
  */
-public class ViewManager extends Application {
+public class ViewManager {
 
     private Stage stage;
-    private static ViewManager viewManager = null;
+    private static ViewManager instance = null;
     private boolean isLoggedIn = false;
 
-    private static final String REGISTRATION = "Registration";
-    private static final String LOGIN = "Login";
-    private static final String OVERVIEW = "Overview1";
-    private static final String MAIN = "Main";
-
-    public ViewManager() {
-        viewManager = this;
+    public enum View {
+        REGISTRATION,
+        LOGIN,
+        OVERVIEW,
+        MAIN
     }
 
+    static Scene sRegistration = null;
+    static Scene sLogin = null;
+    static Scene sOverview = null;
+    static Scene sMain = null;
+
+    private ViewManager() {}
+
     public static ViewManager getInstance() {
-        return viewManager;
+        if (instance == null)
+            instance = new ViewManager();
+
+        return instance;
+    }
+
+    public Stage GetPrimaryStage() {
+        return stage;
+    }
+
+    public void setPrimaryStage(Stage s) {
+        stage = s;
+    }
+
+    private Scene loadSceneFromFile(String path) {
+        try {
+            Parent sceneRoot = FXMLLoader.load(getClass().getResource(path));
+            return new Scene(sceneRoot);
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void display(View view) {
+
+        switch (view) {
+            case REGISTRATION:
+
+                if (sRegistration == null) {
+                    sRegistration = loadSceneFromFile("views/" + "Registration" + ".fxml");
+                    sRegistration.getStylesheets().add(
+                            getClass().getResource("views/" + "Main" + ".css").toExternalForm()
+                    );
+                }
+
+                stage.setScene(sRegistration);
+                stage.setTitle("Registration");
+
+                break;
+            case LOGIN:
+
+                if (sLogin == null) {
+                    sLogin = loadSceneFromFile("views/" + "Login" + ".fxml");
+                    sLogin.getStylesheets().add(
+                            getClass().getResource("views/" + "Main" + ".css").toExternalForm()
+                    );
+                }
+
+                stage.setScene(sLogin);
+                stage.setTitle("Login");
+
+                break;
+            case OVERVIEW:
+
+                if (sOverview == null) {
+                    sOverview = loadSceneFromFile("views/" + "Overview" + ".fxml");
+                    sOverview.getStylesheets().add(
+                            getClass().getResource("views/" + "Main" + ".css").toExternalForm()
+                    );
+                }
+
+                stage.setScene(sOverview);
+                stage.setTitle("Overview");
+
+                break;
+            case MAIN:
+
+                if (sMain == null) {
+                    sMain = loadSceneFromFile("views/" + "Main" + ".fxml");
+                    sMain.getStylesheets().add(
+                            getClass().getResource("views/" + "Main" + ".css").toExternalForm()
+                    );
+                }
+
+                stage.setScene(sMain);
+                stage.setTitle("Main");
+
+                break;
+        }
+
+        // not where it belongs, but prevents noticable window resize when switching scenes
+        if (!stage.isShowing())
+            stage.show();
     }
 
     public boolean isLoggedIn() {
@@ -35,54 +130,5 @@ public class ViewManager extends Application {
 
     public void setIsLoggedIn(boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        stage = primaryStage;
-        gotoLogin();
-        primaryStage.show();
-    }
-
-    public void goToOverview() {
-        try {
-            replaceSceneContent(OVERVIEW);
-        } catch (Exception ex) {
-            System.out.println("could not go to overview");
-            ex.printStackTrace();
-        }
-    }
-
-    public void gotoLogin() {
-        try {
-            setIsLoggedIn(false);
-            replaceSceneContent(LOGIN);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("could not go to login");
-        }
-    }
-
-    public void goToRegister() {
-        try {
-            replaceSceneContent(REGISTRATION);
-        } catch (Exception ex) {
-            System.out.println("could not go to register");
-        }
-    }
-
-    private Parent replaceSceneContent(String view) throws Exception {
-        Parent page = (Parent) FXMLLoader.load(getClass().getResource("views/" + view + ".fxml"), null, new JavaFXBuilderFactory());
-        Scene scene = stage.getScene();
-        if (scene == null) {
-            scene = new Scene(page);
-            scene.getStylesheets().add(getClass().getResource("views/" + MAIN + ".css").toExternalForm());
-            stage.setScene(scene);
-            stage.setTitle("Fancy Title");
-        } else {
-            stage.getScene().setRoot(page);
-        }
-        stage.sizeToScene();
-        return page;
     }
 }
