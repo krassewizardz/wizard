@@ -139,7 +139,7 @@ public class Overview1Controller implements Initializable {
         viewManager.display(ViewManager.View.LOGIN);
     }
 
-    public void savePDF() {
+    public void savePDF() throws Exception {
         Configuration configuration = new Configuration();
         if(viewManager.isLoggedIn()) {
             configuration.setScenario(scenarioCbx.isSelected());
