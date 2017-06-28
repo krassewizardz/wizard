@@ -43,7 +43,12 @@ public class ReportSQLRepository {
                     .addParameter("profession_id", profession.getId())
                     .addParameter("year_of_training", yearOfTraining)
                     .executeAndFetch(Report.class);
-            return report.isEmpty() ? new Report("keine abteilung gefunden", "keine lernform gefunden", "kein leiter gefunden") : report.get(0);
+            return report.isEmpty() ?
+                    new Report(
+                            "keine abteilung gefunden",
+                            "keine lernform gefunden",
+                            "kein leiter gefunden") :
+                    report.get(0);
         }
     }
 }
