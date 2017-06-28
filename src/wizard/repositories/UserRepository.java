@@ -312,7 +312,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             Connection c = getDBHC();
             List<Map<String, Object>> rawconfigurations = c.createQuery(
                     "SELECT id, name, scenario, outcome, " +
-                    "competence, content, materials, comments, techniques, achievments\n" +
+                    "competence, content, materials, comments, techniques, achievements\n" +
                     "FROM templates\n" +
                     "WHERE user_id = :user_id")
                     .addParameter("user_id", u.getId())
@@ -321,23 +321,37 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
 
             List<Configuration> configurations = new ArrayList<>();
             for (Map<String, Object> config : rawconfigurations) {
+                int id = (int)config.get("id");
+                String name = (String)config.get("name");
+                int user_id = u.getId();
+                boolean scenario = intToBool((int)config.get("scenario"));
+                boolean outcome = intToBool((int)config.get("outcome"));
+                boolean competence = intToBool((int)config.get("competence"));
+                boolean content = intToBool((int)config.get("content"));
+                boolean materials = intToBool((int)config.get("materials"));
+                boolean comments = intToBool((int)config.get("comments"));
+                boolean techniques = intToBool((int)config.get("techniques"));
+                boolean achievements = intToBool((int)config.get("achievements"));
                 configurations.add(new Configuration(
-                        (int)config.get("id"),
-                        (String)config.get("name"),
+                        id,
+                        name,
                         u.getId(),
-                        intToBool((int)config.get("scenario")),
-                        intToBool((int)config.get("outcome")),
-                        intToBool((int)config.get("competence")),
-                        intToBool((int)config.get("content")),
-                        intToBool((int)config.get("materials")),
-                        intToBool((int)config.get("comments")),
-                        intToBool((int)config.get("techniques")),
-                        intToBool((int)config.get("achievements"))
+                        scenario,
+                        outcome,
+                        competence,
+                        content,
+                        materials,
+                        comments,
+                        techniques,
+                        achievements
                 ));
             }
             return configurations;
         } catch (Sql2oException e) {
             System.out.println("Sql2oException: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
             e.printStackTrace();
         }
         return new ArrayList<>();
