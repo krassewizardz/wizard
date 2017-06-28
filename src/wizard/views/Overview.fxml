@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane prefHeight="500" prefWidth="960" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wizard.controllers.Overview1Controller">
+<BorderPane prefHeight="500" prefWidth="960" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wizard.controllers.OverviewController">
     <top>
         <Label fx:id="titleLbl" text="Überschrift Übersicht oder so" BorderPane.alignment="CENTER">
          <padding>

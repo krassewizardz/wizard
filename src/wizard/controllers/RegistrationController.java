@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import wizard.ViewManager;
+import wizard.models.View;
 import wizard.services.TranslationService;
 
 import javax.xml.soap.Text;
@@ -36,7 +37,7 @@ public class RegistrationController implements Initializable {
 
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-        titleLbl.setText(TranslationService.translate("views.registration.titelLbl"));
+        titleLbl.setText(TranslationService.translate("views.registration.titleLbl"));
         registerBtn.setText(TranslationService.translate("views.registration.registerBtn"));
         backBtn.setText(TranslationService.translate("views.registration.backBtn"));
         usernameLbl.setText(TranslationService.translate("views.registration.usernameLbl"));
@@ -45,7 +46,7 @@ public class RegistrationController implements Initializable {
     }
 
     public void back() {
-        viewManager.display(ViewManager.View.LOGIN);
+        viewManager.display(View.LOGIN);
     }
 
     public void register() {

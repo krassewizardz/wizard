@@ -1,14 +1,12 @@
 package wizard.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import wizard.ViewManager;
-import wizard.services.JSONConfigService;
+import wizard.models.View;
 import wizard.services.SQLiteAuthenthicationService;
 import wizard.services.TranslationService;
-import wizard.utility.KeyNotFoundException;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,6 +26,7 @@ public class LoginController implements Initializable {
     public Button guestBtn, loginBtn;
 
     private ViewManager viewManager = ViewManager.getInstance();
+    private SQLiteAuthenthicationService sqLiteAuthenthicationService = SQLiteAuthenthicationService.getInstance();
 
     @Override
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -38,25 +37,22 @@ public class LoginController implements Initializable {
         loginBtn.setText(TranslationService.translate("views.login.loginBtn"));
     }
 
+    //TODO normaler user wird auf overview gebracht, admin zu registration
     public void onLogin() {
-        if (formIsValid()) {
-
-            if (
-                    SQLiteAuthenthicationService.getInstance()
-                    .login(usernameTxt.getText(), passwordTxt.getText())
-            ) {
-                ViewManager.getInstance().display(ViewManager.View.OVERVIEW);
+        if (formIsValid() && sqLiteAuthenthicationService.login(usernameTxt.getText(), passwordTxt.getText())) {
+            if(usernameTxt.getText().toLowerCase().equals("admisn")) {
+                viewManager.display(View.REGISTRATION);
             } else {
-                messageLbl.setText(TranslationService.translate("error_login_invalid"));
+                viewManager.display(View.OVERVIEW);
             }
-
+        } else {
+            messageLbl.setText(TranslationService.translate("views.login.messageLbl"));
         }
     }
 
     public void onGuestLogin() {
-        ViewManager vm = ViewManager.getInstance();
-        vm.setGuestMode(true);
-        vm.display(ViewManager.View.OVERVIEW);
+        viewManager.setLoggedIn(false);
+        viewManager.display(View.OVERVIEW);
     }
 
     public boolean formIsValid() {
@@ -67,5 +63,4 @@ public class LoginController implements Initializable {
         messageLbl.setText("");
         loginBtn.setDisable(!formIsValid());
     }
-
 }
