@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import wizard.ViewManager;
+import wizard.services.SQLiteAuthenthicationService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,7 +44,7 @@ public class OverviewController implements Initializable {
         fourthCbx.setText("Fourth");
         fifthCbx.setText("Fifth");
         sixthCbx.setText("Sixth");
-        rightGrid.setVisible(viewManager.isLoggedIn());
+        rightGrid.setVisible(SQLiteAuthenthicationService.getInstance().hasValidLogin());
 
         backBtn.setText("Zurück");
         savePDFBtn.setText("Als PDF speichern");
@@ -67,7 +68,6 @@ public class OverviewController implements Initializable {
         yearChoiceBox.setItems(FXCollections.observableArrayList(years)
         );
 
-        System.out.println(viewManager.isLoggedIn());
     }
 
     public void back() {

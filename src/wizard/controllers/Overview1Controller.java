@@ -20,6 +20,7 @@ import wizard.repositories.SubjectSQLRepository;
 import wizard.models.*;
 import wizard.pdf.PdfGenerator;
 import wizard.repositories.*;
+import wizard.services.AuthenticationServiceProvider;
 import wizard.services.SQL2ODBServiceProvider;
 import wizard.services.SQLiteAuthenthicationService;
 
@@ -84,8 +85,7 @@ public class Overview1Controller implements Initializable {
         commentsCbx.setText("Kommentare");
         techniquesCbx.setText("Techniken");
         achievementsCbx.setText("Achievements");
-        configGrid.setVisible(viewManager.isLoggedIn());
-        System.out.println(viewManager.isLoggedIn());
+        configGrid.setVisible(SQLiteAuthenthicationService.getInstance().hasValidLogin());
 
         backBtn.setText("Zurück");
         savePDFBtn.setText("Als PDF speichern");
@@ -140,7 +140,7 @@ public class Overview1Controller implements Initializable {
 
     public void savePDF() {
         Configuration configuration = new Configuration();
-        if(viewManager.isLoggedIn()) {
+        if(SQLiteAuthenthicationService.getInstance().hasValidLogin()) {
             configuration.setScenario(scenarioCbx.isSelected());
             configuration.setOutcome(outcomeCbx.isSelected());
             configuration.setCompetence(competencesCbx.isSelected());
