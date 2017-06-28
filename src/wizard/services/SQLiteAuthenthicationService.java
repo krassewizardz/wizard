@@ -1,10 +1,8 @@
 package wizard.services;
 
-import sun.plugin2.message.Message;
 import wizard.models.User;
 import wizard.repositories.UserRepository;
 import wizard.utility.KeyNotFoundException;
-import wizard.utility.QueryParam;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;

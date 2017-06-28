@@ -1,8 +1,7 @@
 package wizard.repositories;
 
-import wizard.utility.QueryParam;
-
 import java.util.List;
+
 
 /**
  *  @author J. Sziegaud

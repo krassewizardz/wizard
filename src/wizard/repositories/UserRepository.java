@@ -7,7 +7,6 @@ import wizard.utility.InvalidModelException;
 import wizard.models.User;
 import wizard.services.JSONConfigService;
 import wizard.utility.KeyNotFoundException;
-import wizard.utility.QueryParam;
 
 import java.util.ArrayList;
 import java.util.List;
