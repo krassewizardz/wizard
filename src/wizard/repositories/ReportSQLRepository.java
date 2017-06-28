@@ -27,7 +27,7 @@ public class ReportSQLRepository {
     public Report get(Profession profession, int yearOfTraining) {
 
         final String getMainInformation =
-                "select abteilungsname as department, lehrername as director, uformname as teachingForm " +
+                "select distinct abteilungsname as department, lehrername as director, uformname as teachingForm " +
                 "from tbl_beruf " +
                 "join tbl_abteilung on aid = id_abteilung " +
                 "join tbl_lehrer on id_bleitung = lid " +

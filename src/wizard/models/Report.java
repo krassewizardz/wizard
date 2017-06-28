@@ -9,9 +9,8 @@ public class Report {
     private String teachingForm; // Unterrichtsform: Blockunterricht
     private String director; // Leiter: Herr Gottwald
 
-    public Report(String department, Profession profession, String teachingForm, String director) {
+    public Report(String department, String teachingForm, String director) {
         this.department = department;
-        this.profession = profession;
         this.teachingForm = teachingForm;
         this.director = director;
     }
