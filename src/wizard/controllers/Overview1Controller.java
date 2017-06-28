@@ -137,7 +137,7 @@ public class Overview1Controller implements Initializable {
         viewManager.display(ViewManager.View.LOGIN);
     }
 
-    public void savePDF() {
+    public void savePDF() throws Exception {
         Configuration configuration = new Configuration();
         if(viewManager.isLoggedIn()) {
             configuration.setScenario(scenarioCbx.isSelected());
@@ -161,7 +161,7 @@ public class Overview1Controller implements Initializable {
             generator.exportToFile(getReport(), selectedDirectory.toString(), new User("NAME", "USERNAME", "PASSWORD"));
 
         }catch(Exception ex) {
-
+            throw ex;
 }
         System.out.println("Should save PDF with settings now");
         System.out.println("Get complete data and save as pdf");
@@ -191,9 +191,10 @@ public class Overview1Controller implements Initializable {
         List<Subject> subjects;
         List<Field> fields ;
         List<Situation> situations ;
+        professionList = professionSQLRepository.getAllProfessionsWithId();
 
 
-        for(Profession profession : professionSQLRepository.getAllProfessionsWithId()){
+        for(Profession profession : professionList){
             if(profession.getName().equals(selectedProfession)) {
                 subjects = subjectSQLRepository.getAllSubjectsForProfession(profession);
                 for(Subject subject : subjects){
@@ -211,7 +212,9 @@ public class Overview1Controller implements Initializable {
                 }
                // profession.setYearOfTraining((Integer.parseInt(selectedYear)));
                // profession.setSubjects(subjectSQLRepository.getAllSubjectsForProfession(profession));
-                return report = reportSQLRepository.get(profession, Integer.parseInt(selectedYear));
+                Report report =  reportSQLRepository.get(profession, Integer.parseInt(selectedYear));
+                report.setProfession(profession);
+                return report;
             }
         }
         return report;
