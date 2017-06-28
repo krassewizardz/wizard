@@ -1,14 +1,14 @@
 package wizard;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import wizard.services.JSONConfigService;
+import wizard.services.TranslationService;
+import wizard.utility.KeyNotFoundException;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 
 /**
@@ -20,7 +20,9 @@ public class ViewManager {
 
     private Stage stage;
     private static ViewManager instance = null;
-    private boolean isLoggedIn = false;
+    private boolean guestMode = false;
+
+    private String appTitle = "";
 
     public enum View {
         REGISTRATION,
@@ -34,7 +36,16 @@ public class ViewManager {
     static Scene sOverview = null;
     static Scene sMain = null;
 
-    private ViewManager() {}
+    private ViewManager() {
+        JSONConfigService config = new JSONConfigService("config.json");
+
+        try {
+            appTitle = config.get("appTitle");
+        } catch (KeyNotFoundException e) {
+            System.out.println("KeyNotFoundException: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public static ViewManager getInstance() {
         if (instance == null)
@@ -88,20 +99,20 @@ public class ViewManager {
                 }
 
                 stage.setScene(sLogin);
-                stage.setTitle("Login");
+                stage.setTitle(appTitle + " - " + TranslationService.translate("view_login"));
 
                 break;
             case OVERVIEW:
 
                 if (sOverview == null) {
-                    sOverview = loadSceneFromFile("views/" + "Overview1" + ".fxml");
+                    sOverview = loadSceneFromFile("views/" + "Overview" + ".fxml");
                     sOverview.getStylesheets().add(
                             getClass().getResource("views/" + "Main" + ".css").toExternalForm()
                     );
                 }
 
                 stage.setScene(sOverview);
-                stage.setTitle("Overview");
+                stage.setTitle(appTitle + " - " + TranslationService.translate("view_overview"));
 
                 break;
             case MAIN:
@@ -114,7 +125,7 @@ public class ViewManager {
                 }
 
                 stage.setScene(sMain);
-                stage.setTitle("Main");
+                stage.setTitle(appTitle + " - " + TranslationService.translate("view_main"));
 
                 break;
         }
@@ -124,11 +135,12 @@ public class ViewManager {
             stage.show();
     }
 
-    public boolean isLoggedIn() {
-        return isLoggedIn;
+    public boolean inGuestMode() {
+        return guestMode;
     }
 
-    public void setIsLoggedIn(boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
+    public void setGuestMode(boolean v) {
+        guestMode = v;
     }
+
 }
