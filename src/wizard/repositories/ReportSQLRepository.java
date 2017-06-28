@@ -39,10 +39,11 @@ public class ReportSQLRepository {
                 "and bid = :profession_id;";
 
         try (Connection con = (Connection)dbService.open()) {
-            return con.createQuery(getMainInformation)
+            List<Report> report = con.createQuery(getMainInformation)
                     .addParameter("profession_id", profession.getId())
                     .addParameter("year_of_training", yearOfTraining)
-                    .executeScalar(Report.class);
+                    .executeAndFetch(Report.class);
+            return report.get(0);
         }
     }
 }
