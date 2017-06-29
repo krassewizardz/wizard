@@ -147,9 +147,9 @@ public class OverviewController implements Initializable {
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(stage);
 
-        PdfGenerator generator = new PdfGenerator();
+        PdfGenerator generator = new PdfGenerator(configuration);
         try{
-            generator.exportToFile(getReport(), selectedDirectory.toString(), new User("NAME", "USERNAME", "PASSWORD"));
+            generator.exportToFile(getReport(), selectedDirectory.toString(), currentUser);
         }catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -190,17 +190,11 @@ public class OverviewController implements Initializable {
                     subject.setFields(fields);
                     for(Field field : fields){
                         situations = situationSQLRepository.getAllSitutationsForField(field);
-                        /*for(Situation situation : situations){
-                            situation.setAchievements(situationSQLRepository.getAllAchievments(situation));
-                            situation.setTechniques(situationSQLRepository.getAllTechniques(situation));
-                        }
-                        */
+
                         field.setSituations(situations);
                     }
                     subject.setFields(fields);
                 }
-                // profession.setYearOfTraining((Integer.parseInt(selectedYear)));
-                // profession.setSubjects(subjectSQLRepository.getAllSubjectsForProfession(profession));
                 Report report =  reportSQLRepository.get(profession, Integer.parseInt(selectedYear));
                 report.setProfession(profession);
                 return report;
