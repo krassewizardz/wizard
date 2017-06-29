@@ -1,3 +1,19 @@
+# Technische Dokumentation
+
+# Inhalt
+1. Komponentenübersicht
+2. Projektdaten
+- 1. MySQL Datenbank
+- 2. sqlite Daten
+- 3. Desktopanwendung
+- - 1. Übersicht
+- - 2. Softwarearchitektur
+- - 3. Geschäftslogik
+- - 4. Entitäten
+- - 5. Repositories
+- - 6. Services
+- - 7. GUI
+
 # Komponentenübersicht
 
 Die Anwendung "Export Wizard" setzt sich aus drei Komponenten zusammen die alle lokal vorhanden sein müssen. Die auf MySQL basierende Datenbank des DidaktWizards, aus der die Daten für die PDF-Generierung stammen. Die Anwendung hat nur lesenden Zugriff auf diese Datenbank. Zweite Komponente ist eine SQLite-Datenbank, die für die Datenhaltung von Userdaten und Konfigurationstemplates zuständig ist. Die dritte Komponente ist die Desktop-Anwendung, über die Benutzer sich einloggen und PDFs zu einer Beruf/Ausbildungsjahr Kombination exportieren können. Die Desktopanwendung verbindet dabei die zwei Datenbanken mit der Geschäftslogik und stellt dafür ein GUI bereit.
