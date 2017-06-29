@@ -4,7 +4,7 @@
 1. Komponentenübersicht
 2. Projektdaten
 - 1. MySQL Datenbank
-- 2. sqlite Daten
+- 2. SQLite Datenbank
 - 3. Desktopanwendung
 - - 1. Übersicht
 - - 2. Softwarearchitektur
