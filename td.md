@@ -122,31 +122,31 @@ Um sich vor SQL-Injection zu schützen, werden sämtliche Queries in den Reposit
 **ReportSQLRepository**
 *Für Datentransfer der ReportEntitäten*
 - DBServiceProvider dbServiceProvider *Interface fuer DBService*
-- ReportSQLRepository (DBServiceProvider dbsp) *CTOR mit DI*
+- ReportSQLRepository (DBServiceProvider dbsp) *Constructor mit Dependency Injection*
 - Report get(Profession p, int yearOfTraining)
 
 **ProfessionSQLRepository**
 *Für Datentransfer der ProfessionEntitäten*
 - DBServiceProvider dbServiceProvider *Interface fuer DBService*
-- ProfessionSQLRepository (DBServiceProvider dbsp) *CTOR mit DI*
+- ProfessionSQLRepository (DBServiceProvider dbsp) *Constructor mit Dependency Injection*
 - List getAllProfessionsWithId()
 
 **SubjectSQLRepository**
 *Für Datentransfer der SubjectEntitäten*
 - DBServiceProvider dbServiceProvider *Interface fuer DBService*
-- SubjectSQLRepository (DBServiceProvider dbsp) *CTOR mit DI*
+- SubjectSQLRepository (DBServiceProvider dbsp) *Constructor mit Dependency Injection*
 - List getAllSubjectsForProfession(Profession p)
 
 **FieldSQLRepository**
 *Für Datentransfer der FieldEntitäten*
 - DBServiceProvider dbServiceProvider *Interface fuer DBService*
-- FieldSQLRepository (DBServiceProvider dbsp) *CTOR mit DI*
+- FieldSQLRepository (DBServiceProvider dbsp) *Constructor mit Dependency Injection*
 - List getAllFieldsForSubject(Subject s)
 
 **SituationSQLRepository**
 *Für Datentransfer der SituationEntitäten*
 - DBServiceProvider dbServiceProvider *Interface fuer DBService*
-- SituationSQLRepository (DBServiceProvider dbsp) *CTOR mit DI*
+- SituationSQLRepository (DBServiceProvider dbsp) *Constructor mit Dependency Injection*
 - List getAllSitutationsForField(Field f)
 - List getAllAchievments(Situation s)
 - List getAllTechniques(Situation s)
