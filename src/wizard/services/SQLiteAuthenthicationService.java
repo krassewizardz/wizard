@@ -48,7 +48,7 @@ public class SQLiteAuthenthicationService implements AuthenticationServiceProvid
             e.printStackTrace();
         }
 
-        List<User> result = SQLiteDBConnection.getInstance().getDBHC().createQuery(
+        List<User> result = SQLiteDBConnectionService.getInstance().getDBHC().createQuery(
                 "select * from Users " +
                 "where username=:username " +
                 "and password=:password"

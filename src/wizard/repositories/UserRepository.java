@@ -4,7 +4,7 @@ import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2oException;
 import wizard.models.Configuration;
-import wizard.services.SQLiteDBConnection;
+import wizard.services.SQLiteDBConnectionService;
 import wizard.utility.InvalidModelException;
 import wizard.models.User;
 import wizard.services.JSONConfigService;
@@ -27,7 +27,7 @@ public class UserRepository implements Repository<User> {
     private static UserRepository instance;
 
     Integer lastInsertId = null;
-    SQLiteDBConnection dbConnection = null;
+    SQLiteDBConnectionService dbConnection = null;
 
     public static enum Column {
         ID,
@@ -44,7 +44,7 @@ public class UserRepository implements Repository<User> {
     }
 
     private UserRepository() {
-        dbConnection = SQLiteDBConnection.getInstance();
+        dbConnection = SQLiteDBConnectionService.getInstance();
     }
 
     /**

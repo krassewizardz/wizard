@@ -5,15 +5,15 @@ import org.sql2o.Connection;
 import wizard.utility.KeyNotFoundException;
 
 
-public class SQLiteDBConnection {
+public class SQLiteDBConnectionService {
 
     static private Sql2o dbh = null;
     static private Connection dbhc = null;
-    static private SQLiteDBConnection instance = null;
+    static private SQLiteDBConnectionService instance = null;
 
-    static public SQLiteDBConnection getInstance() {
+    static public SQLiteDBConnectionService getInstance() {
         if (instance == null)
-            instance = new SQLiteDBConnection(getDBUrl());
+            instance = new SQLiteDBConnectionService(getDBUrl());
 
         return instance;
     }
@@ -29,7 +29,7 @@ public class SQLiteDBConnection {
         return null;
     }
 
-    private SQLiteDBConnection(String url) {
+    private SQLiteDBConnectionService(String url) {
         dbh = new Sql2o(url, null, null);
         dbhc = dbh.open();
     }
