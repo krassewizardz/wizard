@@ -4,10 +4,10 @@ import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2oException;
 import wizard.models.Configuration;
+import wizard.services.SQLiteDBConnection;
 import wizard.utility.InvalidModelException;
 import wizard.models.User;
 import wizard.services.JSONConfigService;
-import wizard.utility.KeyNotFoundException;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;
@@ -22,11 +22,12 @@ import java.util.Map;
  *  @author F. Engels
  *  TODO@all: add documentation
  */
-public class UserRepository extends SQLiteRepository implements Repository<User> {
+public class UserRepository implements Repository<User> {
 
     private static UserRepository instance;
 
     Integer lastInsertId = null;
+    SQLiteDBConnection dbConnection = null;
 
     public static enum Column {
         ID,
@@ -43,22 +44,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     }
 
     private UserRepository() {
-        super(getDBUrl());
-    }
-
-    /**
-     * Private helper that allows us to read the config before calling super()
-     * @return
-     */
-    private static String getDBUrl() {
-        try {
-            JSONConfigService config = new JSONConfigService("config.json");
-            return config.get("db.user.url");
-        } catch (KeyNotFoundException e) {
-            System.out.println("KeyNotFoundException: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
+        dbConnection = SQLiteDBConnection.getInstance();
     }
 
     /**
@@ -77,7 +63,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             password = new BigInteger(1,md.digest()).toString(16);
 
             user.validate(true);
-            Connection c = getDBHC();
+            Connection c = dbConnection.getDBHC();
 
             this.lastInsertId = (Integer) c.createQuery(
             "insert into `Users` (name, username, password) " +
@@ -103,7 +89,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
 
     public void add(Configuration config, User u) throws Exception {
         try {
-            Connection c = getDBHC();
+            Connection c = dbConnection.getDBHC();
             c.createQuery(
                     "insert into templates(" +
                             "user_id, name, scenario, outcome, competence, " +
@@ -133,7 +119,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     @Override
     public void add(Iterable<User> users) throws Exception {
 
-        Connection connection = getDBHC();
+        Connection connection = dbConnection.getDBHC();
 
         Query query = connection.createQuery(
                 "insert into `Users` (name, username, password) " +
@@ -171,7 +157,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     public void update(User user) throws Exception {
         try {
             user.validate();
-            Connection connection = getDBHC();
+            Connection connection = dbConnection.getDBHC();
 
             connection.createQuery(
                     "update `Users` " +
@@ -198,7 +184,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     @Override
     public void remove(Integer id) throws Exception {
         try {
-            Connection connection = getDBHC();
+            Connection connection = dbConnection.getDBHC();
 
             connection.createQuery(
                     "delete from `Users` " +
@@ -220,7 +206,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     public void remove(User user) throws Exception {
         try {
             user.validate();
-            Connection connection = getDBHC();
+            Connection connection = dbConnection.getDBHC();
 
             connection.createQuery(
                     "delete * from `Users` " +
@@ -242,7 +228,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     @Override
     public void flush() throws Exception {
         try {
-            Connection connection = getDBHC();
+            Connection connection = dbConnection.getDBHC();
             connection.createQuery(
                     "delete * from `Users`"
             )
@@ -260,7 +246,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     @Override
     public List<User> get() throws Exception {
         try {
-            Connection connection = getDBHC();
+            Connection connection = dbConnection.getDBHC();
             return connection.createQuery(
                     "select * from `Users`"
             ).executeAndFetch(User.class);
@@ -288,8 +274,9 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     }
 
     public List<Configuration> get(User u) {
+        
         try {
-            Connection connection = getDBHC();
+            Connection connection = dbConnection.getDBHC();
             List<Map<String, Object>> rawconfigurations = connection.createQuery(
                     "SELECT id, name, scenario, outcome, " +
                     "competence, content, materials, comments, techniques, achievements\n" +
@@ -342,7 +329,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
 
     public List<User> get(Column column, Object value) throws Exception {
         try {
-            Connection connection = getDBHC();
+            Connection connection = dbConnection.getDBHC();
 
             List<User> result = connection.createQuery(
                     "select * from `Users` " +
