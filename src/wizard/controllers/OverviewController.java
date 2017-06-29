@@ -142,8 +142,8 @@ public class OverviewController implements Initializable {
             configuration.setAchievements(achievementsCbx.isSelected());
         }
         DirectoryChooser chooser = new DirectoryChooser();
-        Stage stage = new Stage(    );
-        File defaultDirectory = new File("C:/");
+        Stage stage = new Stage();
+        File defaultDirectory = new File(System.getProperty("user.home"));
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(stage);
 
