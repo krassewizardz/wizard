@@ -34,7 +34,7 @@ public class PdfGenerator implements ExportServiceProvider {
         fields = new ArrayList<>();
         situationList = new ArrayList<>();
         try {
-            s = s + "\\PDF.pdf";
+            s = s + "\\Didaktischer Jahresplan.pdf";
             document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(s));
             PdfHeaderAndFooter event = new PdfHeaderAndFooter(user);
@@ -100,8 +100,8 @@ public class PdfGenerator implements ExportServiceProvider {
 
         PdfPTable situationTable = new PdfPTable(10);
         situationTable.setWidthPercentage(100);
-        Font font = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 9f, Font.NORMAL, BaseColor.BLACK);
-        Font boldFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 9f, Font.BOLD, BaseColor.BLACK);
+        Font font = FontFactory.getFont("c:/windows/fonts/Arial.ttf", 9f, Font.NORMAL, BaseColor.BLACK);
+        Font boldFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", 9f, Font.BOLD, BaseColor.BLACK);
 
 
         Phrase subjectPhrase = new Phrase();
@@ -257,7 +257,7 @@ if(config.isMaterials()) {
       private void createYearlyFieldView(Field field, int min, int max) {
           document.open();
           BaseColor lineColor = new BaseColor(166,166,166);
-          Font regularFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 6f, Font.NORMAL, BaseColor.BLACK);
+          Font regularFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", 6f, Font.NORMAL, BaseColor.BLACK);
           PdfPCell fieldCell = new PdfPCell(new Phrase("LF "+field.getId()+": "+field.getName()
                   +" ("+field.getDuration()+" UStd)", regularFont));
           Situation situation;
@@ -294,7 +294,7 @@ if(config.isMaterials()) {
     private void createYearlySituationView(Situation situation, Field field){
         document.open();
         BaseColor lineColor = new BaseColor(166,166,166);
-        Font regularFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 6f, Font.NORMAL, BaseColor.BLACK);
+        Font regularFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", 6f, Font.NORMAL, BaseColor.BLACK);
         PdfPCell cell = new PdfPCell(new Phrase("LS "+field.getId()+"."+situation.getId()+": "
                 +situation.getName()+" ("+situation.getDuration()+" UStd)", regularFont));
         cell.setColspan(situation.getEnd() - situation.getStart() + 1);
@@ -304,8 +304,8 @@ if(config.isMaterials()) {
     public void createDetailHeader(String title) throws DocumentException {
         document.open();
         BaseColor textColor = new BaseColor(53, 53, 53);
-        Font subtitleFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 9f, Font.NORMAL, textColor);
-        Font titleFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 14f, Font.BOLD, textColor);
+        Font subtitleFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 9f, Font.NORMAL, textColor);
+        Font titleFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 14f, Font.BOLD, textColor);
         Paragraph titel = new Paragraph(title,titleFont);
         titel.setAlignment(Element.ALIGN_CENTER);
         document.add(titel);
@@ -318,7 +318,7 @@ if(config.isMaterials()) {
     public void createHeader() throws DocumentException{
         document.open();
         BaseColor textColor = new BaseColor(120, 163, 232);
-        Font titleFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 14f, Font.BOLD, textColor);
+        Font titleFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 14f, Font.BOLD, textColor);
         Paragraph title = new Paragraph("Jahresübersicht",titleFont);
         title.setAlignment(Element.ALIGN_CENTER);
         document.add(title);
@@ -327,9 +327,10 @@ if(config.isMaterials()) {
     public void createYearlyViewHeader() throws DocumentException {
         BaseColor lineColor = new BaseColor(53, 53, 53);
         int fullCollSPan = report.getProfession().getSubjects().size();
-        Font regularFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 6f, Font.NORMAL, BaseColor.BLACK);
+        Font regularFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", 6f, Font.NORMAL, BaseColor.BLACK);
+        Font lessonFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", 10f, Font.BOLD, BaseColor.BLACK);
 
-        PdfPCell weekRow = new PdfPCell(new Phrase("Unterrichtswochen", regularFont));
+        PdfPCell weekRow = new PdfPCell(new Phrase("Unterrichtswochen", lessonFont));
         weekRow.setColspan(12);
         weekRow.setBorderColor(lineColor);
         weekRow.setBackgroundColor(BaseColor.WHITE);
@@ -403,7 +404,7 @@ if(config.isMaterials()) {
         BaseColor tableColor = new BaseColor(186, 186, 186);
         BaseColor textColor = new BaseColor(71,71,71);
         BaseColor lineColor = new BaseColor(166,166,166);
-        Font greyFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 10f, Font.BOLD, textColor);
+        Font greyFont = FontFactory.getFont("c:/windows/fonts/Arial.ttf", 10f, Font.BOLD, textColor);
         document.open();
         PdfPCell subjectContent = new PdfPCell(new Phrase(subject, greyFont));
         subjectContent.setColspan(12);
