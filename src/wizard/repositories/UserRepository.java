@@ -9,6 +9,9 @@ import wizard.models.User;
 import wizard.services.JSONConfigService;
 import wizard.utility.KeyNotFoundException;
 
+import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,8 +69,14 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
     public void add(User user) {
         try {
 
-            user.validate(true);
+            JSONConfigService config = new JSONConfigService("config.json");
+            String password = user.getPassword() + config.get("db.user.salt");
 
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes(Charset.forName("UTF-8")), 0, password.length());
+            password = new BigInteger(1,md.digest()).toString(16);
+
+            user.validate(true);
             Connection c = getDBHC();
 
             this.lastInsertId = (Integer) c.createQuery(
@@ -76,7 +85,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             )
             .addParameter("name", user.getName())
             .addParameter("username", user.getUsername())
-            .addParameter("password", user.getPassword())
+            .addParameter("password", password)
             .executeUpdate().getKey();
 
             c.getResult();
@@ -89,6 +98,8 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
         } catch (InvalidModelException e) {
             System.out.println("InvalidModelException: " + e.getMessage());
             e.printStackTrace();
+        } catch (Exception e) {
+
         }
     }
 

@@ -1,6 +1,5 @@
 package wizard.controllers;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -8,10 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import wizard.ViewManager;
+import wizard.models.User;
 import wizard.models.View;
+import wizard.repositories.UserRepository;
 import wizard.services.TranslationService;
 
-import javax.xml.soap.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 
 public class RegistrationController implements Initializable {
 
+    UserRepository userRepository = UserRepository.getInstance();
+
     @FXML
     Button registerBtn, backBtn;
 
@@ -28,7 +30,7 @@ public class RegistrationController implements Initializable {
     Label titleLbl, usernameLbl, passwordLbl, passwordRepeatLbl;
 
     @FXML
-    TextField usernametTxt;
+    TextField usernameTxt;
 
     @FXML
     PasswordField passwordTxt, passwordRepeatTxt;
@@ -50,7 +52,7 @@ public class RegistrationController implements Initializable {
     }
 
     public void register() {
-        //TODO user anlegen
+        userRepository.add(new User("", usernameTxt.getText(), passwordTxt.getText()));
         System.out.println("Should create user here");
         registerBtn.setText("saved");
     }

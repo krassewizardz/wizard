@@ -40,7 +40,7 @@ public class LoginController implements Initializable {
     //TODO normaler user wird auf overview gebracht, admin zu registration
     public void onLogin() {
         if (formIsValid() && sqLiteAuthenthicationService.login(usernameTxt.getText(), passwordTxt.getText())) {
-            if(usernameTxt.getText().toLowerCase().equals("admisn")) {
+            if(usernameTxt.getText().toLowerCase().equals("admin")) {
                 viewManager.display(View.REGISTRATION);
             } else {
                 viewManager.display(View.OVERVIEW);

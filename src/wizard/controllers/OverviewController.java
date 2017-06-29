@@ -111,12 +111,13 @@ public class OverviewController implements Initializable {
         currentUser = sqLiteAuthenthicationService.getLoggedInUser();
 
         //TODO funktioniert erst, wenn userservice ordentlich läuft
-        /*if(viewManager.isLoggedIn()) {
-            List<Configuration> userConfigurations = currentUser.getConfigurations();
+        //if(viewManager.isLoggedIn()) {
+            List<Configuration> userConfigurations = userRepository.get(currentUser);
+            //List<Configuration> userConfigurations = currentUser.getConfigurations();
             for(Configuration configuration : userConfigurations) {
                 configurationList.add(configuration.getName());
             }
-        }*/
+        //}
 
         professionComboBox.setItems(FXCollections.observableArrayList(professionObservableList));
         yearComboBox.setItems(FXCollections.observableArrayList(yearObservableList));
@@ -239,12 +240,13 @@ public class OverviewController implements Initializable {
 
     public void saveConfiguration() {
         List<Configuration> configurations = currentUser.getConfigurations();
-        for(Configuration configuration : configurations) {
-            if(configuration.getName().equals(configNameTxt.getText())) {
-                return;
+        if (configurations != null) {
+            for (Configuration configuration : configurations) {
+                if (configuration.getName().equals(configNameTxt.getText())) {
+                    return;
+                }
             }
         }
-
         Configuration configuration = new Configuration(
                 configNameTxt.getText(),
                 currentUser.getId(),
@@ -260,13 +262,13 @@ public class OverviewController implements Initializable {
 
         System.out.println("Should save configuration to user");
         System.out.println("Should load configuration again");
-
+        userRepository.add(configuration, currentUser);
         //TODO service to save config for user
         //TODO reload config
     }
 
     private void loadConfig(String configname) {
-        List<Configuration> configurations = currentUser.getConfigurations();
+        List<Configuration> configurations = userRepository.get(currentUser);
         for(Configuration configuration : configurations) {
             if(configuration.getName().equals(configname)) {
                 scenarioCbx.setSelected(configuration.isScenario());
