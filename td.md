@@ -194,6 +194,18 @@ Um sich vor SQL-Injection zu schützen, werden sämtliche Queries in den Reposit
 *Konkrete Implementierung um über die SQL2O-Library Connections zu erstellen*
 - Connection open()
 
+**ConfigServiceProvider**
+*Stellt ein generisches Interface zum Lesen von Konfigurationsdateien bereit.*
+
+**JSONConfigService**
+*Implementiert das oben genannte Interface im Bezug auf JSON formatierte Dateien. Zugriff auf verschachtelte Elemente wird durch Punktnotation (bpw. db.host) möglich.*
+
+**SQLiteDBConnectionService**
+*Stellt die Datenbankanbindung für die SQLite Datenbank in Form eines Singletons zur Verfügung. Initial war diese Klasse (damals noch SQLiteRepository) als Basisklasse für Repositories, die eine SQLite Anbindung benötigen, gedacht. Nachdem allerdings auch im LoginController Datenbankzugriff notwendig wurde, wurde die Klasse in eine generische Singleton-Klasse refaktorisiert.*
+
+**TranslationService**
+*Implementation eines einfachen Übersetzungsservice. Translation-Keys werden in der Datei translations.json hinterlegt und dann in der Anwendung über einen statischen Aufruf von translate(key) ausgegeben. Vorteil: Einerseits wird Übersetzbarkeit gewährleistet, andererseits befinden sich alle relevanten Textbausteine an zentral an einer Stelle.*
+
 #### GUI
 
 **ViewManager**
