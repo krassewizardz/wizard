@@ -162,3 +162,28 @@ Um sich vor SQL-Injection zu schützen, werden sämtliche Queries in den Reposit
 - Connection open()
 
 #### GUI
+
+**ViewManager**
+*Für Wechsel zwischen den Views*
+- ViewManager getInstance *ViewManager als Singleton*
+- Scene loadSceneFromFile *erstellt neue Scene aus fxml und css Datei*
+- display(View view) *Wechselt zur angeforderten View*
+
+**LoginController**
+*Controller für Login.fxml*
+- onLogin *Loggt den User ein und navigiert zu Overview oder Registrierung*
+- onGuestLogin *Loggt den Gast ein und navigiert zu Overview*
+- boolean formIsValid *prüft die Form*
+- updateFormValidationState *setzt Fehlermeldung zurück*
+
+**OverviewController**
+*Controller für Overview.fxml*
+- savePDF *öffnet Dialog zum abspeichern der PDF*
+- back *loggt den User aus und navigiert zum Login*
+- saveConfiguration *speichert aktuelle Konfiguration*
+- loadConfiguration *lädt ausgewählte Konfiguration*
+
+**RegistrationController**
+*Controller für Registration*
+- back *navigiert zum Login*
+- register *legt neuen Benutzer an*
