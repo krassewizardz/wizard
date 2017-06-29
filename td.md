@@ -117,6 +117,13 @@ Um sich vor SQL-Injection zu schützen, werden sämtliche Queries in den Reposit
 - bool techniques *Flag*
 - bool achievements *Flag*
 
+**User**
+*Symbolisiert einen Nutzer der Anwendung*
+- int id *Primary Key aus der Datenbank*
+- String name *Realname des Nutzers*
+- String username *Benutzername, zum Einloggen in die Applikation*
+- String password *MD5-Hash des Passworts, gesalted mit dem entsprechenden Wert aus der Konfigurationsdatei*
+
 #### Repositories
 
 **ReportSQLRepository**
@@ -150,6 +157,32 @@ Um sich vor SQL-Injection zu schützen, werden sämtliche Queries in den Reposit
 - List getAllSitutationsForField(Field f)
 - List getAllAchievments(Situation s)
 - List getAllTechniques(Situation s)
+
+**UserRepository**
+*Für Datentransfer der User-Entitäten (Singleton)*
+
+*Variablen*
+- private static UserRepository instance
+- Integer lastInsertId
+- SQLiteDBConnection dbConnection
+- public static enum Column
+
+*Methoden*
+- private UserRepository()
+- public static UserRepository getInstance()
+- public void add(User user) throws Exception
+- public void add(Configuration config, User u) throws Exception
+- public void add(Iterable<User> users) throws Exception
+- public void update(User user) throws Exception
+- public void remove(Integer id) throws Exception
+- public void remove(User user) throws Exception
+- public void flush() throws Exception
+- public List<User> get() throws Exception
+- public User get(Integer id) throws Exception
+- public List<Configuration> get(User u)
+- private int boolToInt(boolean b)
+- private boolean intToBool(int i)
+- public List<User> get(Column column, Object value) throws Exception
 
 #### Services
 
