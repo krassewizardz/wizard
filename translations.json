@@ -39,8 +39,9 @@
         "backBtn" : "Zurück",
         "usernameLbl" : "Benutzername",
         "passwordLbl" : "Passwort",
-        "passwordRepeatLbl" : "Passwort wiederholen"
-
+        "passwordRepeatLbl" : "Passwort wiederholen",
+        "success" : "User erfolgreich angelegt",
+        "fail" : "User konnte nicht angelegt werden"
       }
     }
   },
@@ -85,7 +86,9 @@
         "backBtn" : "Back",
         "usernameLbl" : "Username",
         "passwordLbl" : "Password",
-        "passwordRepeatLbl" : "Repeat password"
+        "passwordRepeatLbl" : "Repeat password",
+        "success" : "User added successfully",
+        "fail" : "Could not add user"
       }
     }
   }

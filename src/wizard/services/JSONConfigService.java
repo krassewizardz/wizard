@@ -29,9 +29,7 @@ public class JSONConfigService implements ConfigServiceProvider {
      */
     @Override
     public String get(String key) throws KeyNotFoundException {
-
         try {
-
             if ( key.contains(".") && !key.endsWith(".") ) {
                 String[] parts = key.split("\\.");
 
@@ -164,10 +162,10 @@ public class JSONConfigService implements ConfigServiceProvider {
     @Override
     public void saveToFile(String destination) {
         try {
-            FileWriter fw = new FileWriter(destination);
-            config.write(fw);
-            fw.flush();
-            fw.close();
+            FileWriter fileWriter = new FileWriter(destination);
+            config.write(fileWriter);
+            fileWriter.flush();
+            fileWriter.close();
         } catch (JSONException e) {
             System.out.println("JSONException: " + e.getMessage()); // TODO@all: handle this
             e.printStackTrace();

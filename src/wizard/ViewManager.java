@@ -77,34 +77,28 @@ public class ViewManager {
     public void display(View view) {
         switch (view) {
             case REGISTRATION:
-                if (registrationScene == null) {
-                    registrationScene = loadSceneFromFile("views/" + "Registration" + ".fxml");
-                    registrationScene.getStylesheets().add(
-                            getClass().getResource("views/" + "Main" + ".css").toExternalForm()
-                    );
-                }
+                registrationScene = loadSceneFromFile("views/" + "Registration" + ".fxml");
+                registrationScene.getStylesheets().add(
+                        getClass().getResource("views/" + "Main" + ".css").toExternalForm()
+                );
                 stage.setScene(registrationScene);
                 stage.setTitle(appTitle + " - " + TranslationService.translate("views.registration.title"));
                 break;
 
             case LOGIN:
-                if (loginScene == null) {
-                    loginScene = loadSceneFromFile("views/" + "Login" + ".fxml");
-                    loginScene.getStylesheets().add(
-                            getClass().getResource("views/" + "Main" + ".css").toExternalForm()
-                    );
-                }
+                loginScene = loadSceneFromFile("views/" + "Login" + ".fxml");
+                loginScene.getStylesheets().add(
+                        getClass().getResource("views/" + "Main" + ".css").toExternalForm()
+                );
                 stage.setScene(loginScene);
                 stage.setTitle(appTitle + " - " + TranslationService.translate("views.login.title"));
                 break;
 
             case OVERVIEW:
-                if (overviewScene == null) {
-                    overviewScene = loadSceneFromFile("views/" + "Overview" + ".fxml");
-                    overviewScene.getStylesheets().add(
-                            getClass().getResource("views/" + "Main" + ".css").toExternalForm()
-                    );
-                }
+                overviewScene = loadSceneFromFile("views/" + "Overview" + ".fxml");
+                overviewScene.getStylesheets().add(
+                        getClass().getResource("views/" + "Main" + ".css").toExternalForm()
+                );
                 stage.setScene(overviewScene);
                 stage.setTitle(appTitle + " - " + TranslationService.translate("views.overview.title"));
 

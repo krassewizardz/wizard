@@ -51,14 +51,19 @@ public class SQLiteAuthenthicationService implements AuthenticationServiceProvid
 
         UserRepository ur = UserRepository.getInstance();
 
-        List<User> result = ur.get(UserRepository.Column.PASSWORD, password);
-
-        if (result.size() == 1) {
-            currentUser = result.get(0);
-            return true;
+        try {
+            List<User> result = ur.get(UserRepository.Column.PASSWORD, password);
+            if (result.size() == 1) {
+                currentUser = result.get(0);
+                return true;
+            }
+        } catch (Exception e) {
         }
-
         return false;
+    }
+
+    public void logout() {
+        currentUser = null;
     }
 
     @Override

@@ -10,6 +10,7 @@ import wizard.ViewManager;
 import wizard.models.User;
 import wizard.models.View;
 import wizard.repositories.UserRepository;
+import wizard.services.SQLiteAuthenthicationService;
 import wizard.services.TranslationService;
 
 import java.net.URL;
@@ -22,12 +23,13 @@ import java.util.ResourceBundle;
 public class RegistrationController implements Initializable {
 
     UserRepository userRepository = UserRepository.getInstance();
+    SQLiteAuthenthicationService sqLiteAuthenthicationService = SQLiteAuthenthicationService.getInstance();
 
     @FXML
     Button registerBtn, backBtn;
 
     @FXML
-    Label titleLbl, usernameLbl, passwordLbl, passwordRepeatLbl;
+    Label titleLbl, usernameLbl, passwordLbl, passwordRepeatLbl, messageLbl;
 
     @FXML
     TextField usernameTxt;
@@ -48,12 +50,19 @@ public class RegistrationController implements Initializable {
     }
 
     public void back() {
+        sqLiteAuthenthicationService.logout();
         viewManager.display(View.LOGIN);
     }
 
     public void register() {
-        userRepository.add(new User("", usernameTxt.getText(), passwordTxt.getText()));
-        System.out.println("Should create user here");
-        registerBtn.setText("saved");
+        try {
+            userRepository.add(new User("", usernameTxt.getText(), passwordTxt.getText()));
+            messageLbl.setText(TranslationService.translate("views.registration.success"));
+        } catch (Exception e) {
+            messageLbl.setText(TranslationService.translate("views.registration.fail"));
+        }
+        usernameTxt.clear();
+        passwordTxt.clear();
+        passwordRepeatTxt.clear();
     }
 }

@@ -66,7 +66,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * @param user A user that shall be added to the db
      */
     @Override
-    public void add(User user) {
+    public void add(User user) throws Exception {
         try {
 
             JSONConfigService config = new JSONConfigService("config.json");
@@ -93,17 +93,15 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             user.setId(this.lastInsertId);
 
         } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         } catch (InvalidModelException e) {
-            System.out.println("InvalidModelException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         } catch (Exception e) {
-
+            throw e;
         }
     }
 
-    public void add(Configuration config, User u) {
+    public void add(Configuration config, User u) throws Exception {
         try {
             Connection c = getDBHC();
             c.createQuery(
@@ -124,8 +122,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
                     .addParameter("achievements", boolToInt(config.isAchievements()))
                     .executeUpdate();
         } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -134,47 +131,36 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * @param users A <iterable> of users that shall be added to the db
      */
     @Override
-    public void add(Iterable<User> users) {
+    public void add(Iterable<User> users) throws Exception {
 
-        Connection c = getDBHC();
+        Connection connection = getDBHC();
 
-        Query q = c.createQuery(
+        Query query = connection.createQuery(
                 "insert into `Users` (name, username, password) " +
                         "values (:name, :username, :password)"
         );
 
-        users.forEach(
-                user ->  {
+        for(User user : users) {
+            try {
+                user.validate(true);
 
-                    try {
+                query
+                .addParameter("name", user.getName())
+                .addParameter("username", user.getUsername())
+                .addParameter("password", user.getPassword())
+                .addToBatch();
 
-                        user.validate(true);
-
-                        q
-                        .addParameter("name", user.getName())
-                        .addParameter("username", user.getUsername())
-                        .addParameter("password", user.getPassword())
-                        .addToBatch();
-
-                    } catch (Sql2oException e) {
-                        System.out.println("Sql2oException: " + e.getMessage());
-                        e.printStackTrace();
-                    } catch (InvalidModelException e) {
-                        System.out.println("InvalidModelException: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-
-                }
-        );
-
-        try {
-            q.executeBatch();
-            c.commit();
-        } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
+            } catch (Exception e) {
+                throw e;
+            }
         }
 
+        try {
+            query.executeBatch();
+            connection.commit();
+        } catch (Sql2oException e) {
+            throw e;
+        }
     }
 
     /**
@@ -182,14 +168,12 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * @param user The model of the record to update
      */
     @Override
-    public void update(User user) {
+    public void update(User user) throws Exception {
         try {
-
             user.validate();
+            Connection connection = getDBHC();
 
-            Connection c = getDBHC();
-
-            c.createQuery(
+            connection.createQuery(
                     "update `Users` " +
                              "set name=:name, username=:username, password=:password" +
                              "where id=:id"
@@ -201,11 +185,9 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             .executeUpdate();
 
         } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         } catch (InvalidModelException e) {
-            System.out.println("InvalidModelException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -214,12 +196,11 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * @param id The id of the record to remove
      */
     @Override
-    public void remove(Integer id) {
+    public void remove(Integer id) throws Exception {
         try {
+            Connection connection = getDBHC();
 
-            Connection c = getDBHC();
-
-            c.createQuery(
+            connection.createQuery(
                     "delete from `Users` " +
                             "where id=:id"
             )
@@ -227,8 +208,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             .executeUpdate();
 
         } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -237,14 +217,12 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * @param user The model of the record to remove
      */
     @Override
-    public void remove(User user) {
+    public void remove(User user) throws Exception {
         try {
-
             user.validate();
+            Connection connection = getDBHC();
 
-            Connection c = getDBHC();
-
-            c.createQuery(
+            connection.createQuery(
                     "delete * from `Users` " +
                             "where id=:id"
             )
@@ -252,11 +230,9 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             .executeUpdate();
 
         } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         } catch (InvalidModelException e) {
-            System.out.println("InvalidModelException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -264,19 +240,16 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * Clears the entire table
      */
     @Override
-    public void flush() {
+    public void flush() throws Exception {
         try {
-
-            Connection c = getDBHC();
-
-            c.createQuery(
+            Connection connection = getDBHC();
+            connection.createQuery(
                     "delete * from `Users`"
             )
                     .executeUpdate();
 
         } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -285,21 +258,18 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * @return
      */
     @Override
-    public List<User> get() {
+    public List<User> get() throws Exception {
         try {
-
-            Connection c = getDBHC();
-
-            return c.createQuery(
+            Connection connection = getDBHC();
+            return connection.createQuery(
                     "select * from `Users`"
             ).executeAndFetch(User.class);
 
         } catch (Sql2oException e) {
             System.out.println("Sql2oException: " + e.getMessage());
             e.printStackTrace();
+            return new ArrayList<User>();
         }
-
-        return new ArrayList<User>();
     }
 
     /**
@@ -308,8 +278,7 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
      * @return
      */
     @Override
-    public User get(Integer id) {
-
+    public User get(Integer id) throws Exception {
         List<User> result = get(Column.ID, id);
 
         if (result.size() == 0)
@@ -320,8 +289,8 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
 
     public List<Configuration> get(User u) {
         try {
-            Connection c = getDBHC();
-            List<Map<String, Object>> rawconfigurations = c.createQuery(
+            Connection connection = getDBHC();
+            List<Map<String, Object>> rawconfigurations = connection.createQuery(
                     "SELECT id, name, scenario, outcome, " +
                     "competence, content, materials, comments, techniques, achievements\n" +
                     "FROM templates\n" +
@@ -358,14 +327,9 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
                 ));
             }
             return configurations;
-        } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
-            e.printStackTrace();
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
     }
 
     private int boolToInt(boolean b) {
@@ -376,13 +340,11 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
         return i != 0;
     }
 
-    public List<User> get(Column column, Object value) {
-
+    public List<User> get(Column column, Object value) throws Exception {
         try {
+            Connection connection = getDBHC();
 
-            Connection c = getDBHC();
-
-            List<User> result = c.createQuery(
+            List<User> result = connection.createQuery(
                     "select * from `Users` " +
                             "where " + column.name().toLowerCase() +" =:value"
             )
@@ -390,12 +352,8 @@ public class UserRepository extends SQLiteRepository implements Repository<User>
             .executeAndFetch(User.class);
 
             return result;
-
         } catch (Sql2oException e) {
-            System.out.println("Sql2oException: " + e.getMessage());
-            e.printStackTrace();
+            return new ArrayList<User>();
         }
-
-        return new ArrayList<User>();
     }
 }

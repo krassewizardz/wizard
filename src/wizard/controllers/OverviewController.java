@@ -110,14 +110,10 @@ public class OverviewController implements Initializable {
 
         currentUser = sqLiteAuthenthicationService.getLoggedInUser();
 
-        //TODO funktioniert erst, wenn userservice ordentlich läuft
-        //if(viewManager.isLoggedIn()) {
-            List<Configuration> userConfigurations = userRepository.get(currentUser);
-            //List<Configuration> userConfigurations = currentUser.getConfigurations();
-            for(Configuration configuration : userConfigurations) {
-                configurationList.add(configuration.getName());
-            }
-        //}
+        List<Configuration> userConfigurations = userRepository.get(currentUser);
+        for(Configuration configuration : userConfigurations) {
+            configurationList.add(configuration.getName());
+        }
 
         professionComboBox.setItems(FXCollections.observableArrayList(professionObservableList));
         yearComboBox.setItems(FXCollections.observableArrayList(yearObservableList));
@@ -129,6 +125,7 @@ public class OverviewController implements Initializable {
     }
 
     public void back() {
+        sqLiteAuthenthicationService.logout();
         viewManager.display(View.LOGIN);
     }
 
@@ -153,12 +150,9 @@ public class OverviewController implements Initializable {
         PdfGenerator generator = new PdfGenerator();
         try{
             generator.exportToFile(getReport(), selectedDirectory.toString(), new User("NAME", "USERNAME", "PASSWORD"));
-
         }catch(Exception ex) {
             ex.printStackTrace();
         }
-        System.out.println("Should save PDF with settings now");
-        System.out.println("Get complete data and save as pdf");
     }
 
     public void chooseYear() {
@@ -186,7 +180,6 @@ public class OverviewController implements Initializable {
         List<Field> fields ;
         List<Situation> situations ;
         professionList = professionSQLRepository.getAllProfessionsWithId();
-
 
         for(Profession profession : professionList){
             if(profession.getName().equals(selectedProfession)) {
@@ -260,11 +253,14 @@ public class OverviewController implements Initializable {
                 achievementsCbx.isSelected()
         );
 
-        System.out.println("Should save configuration to user");
-        System.out.println("Should load configuration again");
-        userRepository.add(configuration, currentUser);
-        //TODO service to save config for user
-        //TODO reload config
+        try {
+            userRepository.add(configuration, currentUser);
+        } catch (Exception e) {
+            // TODO nachricht "config konnte nicht gespeichert werden"
+        }
+        configurationList.add(configuration.getName());
+        configurationListView.refresh();
+        configurationListView.setItems(FXCollections.observableArrayList(configurationList));
     }
 
     private void loadConfig(String configname) {
