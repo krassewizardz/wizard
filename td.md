@@ -1,17 +1,17 @@
 # Komponentenübersicht
 
-Die Anwendung "Export Wizard" setzt sich aus drei Komponenten zusammen die alle lokal vorhanden sein müssen. Die auf MySQL basierende Datenbank des DidaktWizards, aus der die Daten für die PDF-Generierung stammen. Die Anwendung hat nur lesenden Zugriff auf diese Datenbank. Zweite Komponente ist eine sqlite-Datenbank, die für Datenhalten von Userdaten und Konfigurationstemplates zuständig ist. Die dritte Komponente ist die Desktop-Anwendung, über die Benutzer sich einloggen und PDFs zu einer Beruf/Ausbildungsjahr Kombination exportieren können. Die Desktopanwendung verbindet dabei die zwei Datenbanken mit der Geschäftslogik und stellt dafür ein GUI bereit.
+Die Anwendung "Export Wizard" setzt sich aus drei Komponenten zusammen die alle lokal vorhanden sein müssen. Die auf MySQL basierende Datenbank des DidaktWizards, aus der die Daten für die PDF-Generierung stammen. Die Anwendung hat nur lesenden Zugriff auf diese Datenbank. Zweite Komponente ist eine SQLite-Datenbank, die für die Datenhaltung von Userdaten und Konfigurationstemplates zuständig ist. Die dritte Komponente ist die Desktop-Anwendung, über die Benutzer sich einloggen und PDFs zu einer Beruf/Ausbildungsjahr Kombination exportieren können. Die Desktopanwendung verbindet dabei die zwei Datenbanken mit der Geschäftslogik und stellt dafür ein GUI bereit.
 
 # Projektdaten
 
 Das Projekt wurde in einer Cross-Platform Umgebung entwickelt und ist Platformunabhängig. Zum Einsatz kamen Windows, Linux und macOS Betriebssysteme.
 
 ## MySQL Datenbank des Didakt-Wizard
-MySQL ist ein Open-Source RDBMS die unter dem Schirm der Oracle-Corporation weiterentwickelt wird. Für die Datenabfragen wird die SQL-Syntax verwendet. Die MySQL-Datenbank wurde in einem Dockercontainer repliziert oder lokal installiert. Für die Anbindung über Dockercontainer wird die aktuelle Docker Version 17-CE benötigt. Für eine lokale Installation der mySQL-Datenbank wird die aktuelle Version der mySQL-Datenbank benötigt. 
+MySQL ist ein Open-Source RDBMS das unter dem Schirm der Oracle-Corporation weiterentwickelt wird. Für die Datenabfragen wird die SQL-Syntax verwendet. Die MySQL-Datenbank wurde in einem Dockercontainer repliziert oder lokal installiert. Für die Anbindung über Dockercontainer wird die aktuelle Docker Version 17-CE benötigt. Für eine lokale Installation der mySQL-Datenbank wird die aktuelle Version der MySQL-Datenbank bzw. MariaDB benötigt.
 
-## sqlite Datenbank
+## SQLite Datenbank
 
-SQLite ist eine freie „Mini-SQL-Datenbank“, die im Gegensatz zu MySQL oder PostgreSQL keinen laufenden Dienst benötigt. Klassische DBMS (Database Management Services) kommunizieren über Sockets oder IP mit Anwendungen und koordinieren deren Zugriffe auf die Datenbanken. Bei SQLite greifen Anwendungen direkt auf die Dateien mit den Datenbanken zu. Da es sich um eine Einzelplatzanwendung handelt ist sqlite als Datenbank ausreichend. sqlite wird in Version 3.19.3 benötigt.
+SQLite ist eine freie „Mini-SQL-Datenbank“, die im Gegensatz zu MySQL oder PostgreSQL keinen laufenden Dienst benötigt. Klassische DBMS (Database Management Services) kommunizieren über Sockets oder IP mit Anwendungen und koordinieren deren Zugriffe auf die Datenbanken. Bei SQLite greifen Anwendungen direkt auf die Dateien mit den Datenbanken zu. Da es sich um eine Einzelplatzanwendung handelt ist SQLite als Datenbank ausreichend. SQLite wird in Version >=3.19.3 benötigt.
 
 ## Desktopanwendung
 
