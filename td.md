@@ -48,6 +48,9 @@ Um sich vor SQL-Injection zu schützen, werden sämtliche Queries in den Reposit
 
 Über den SQLiteAuthenticationService wird sichergestellt, dass sämtliche Passwörter nur gehashed in die lokale sqlite-Datenbank abgelegt werden.
 
+Der PDF-Export wurde mithilfe von der iText Libary implementiert. Dem PDF-Export wird zudem Informationen über die gewählten Konfigurationen mitgegeben wonach einzelne Zeilen innerhalb der Table erstellt werden. 
+Da einzelne Felder in der Datenbank HTML beinhalten, wurde Jsoup als html Parser implementiert. 
+
 #### Entitäten
 
 **Report**
@@ -193,6 +196,13 @@ Um sich vor SQL-Injection zu schützen, werden sämtliche Queries in den Reposit
 **SQL2ODBServiceProvider**
 *Konkrete Implementierung um über die SQL2O-Library Connections zu erstellen*
 - Connection open()
+
+#### PDF
+- exportToFile(Report r, String s, User user) *PDF-Export, ruft weitere Methoden zur PDF erstellung auf*
+- htmlToText(String text) *löscht html aus einem String*
+- createYearlyFieldView(Field field, int min, int max) *Erstellt die Jahresübersicht*
+- createDetailSituationView(Situation situation, Field field, Subject subject) *Erstellt die Detailansicht*
+
 
 #### GUI
 
