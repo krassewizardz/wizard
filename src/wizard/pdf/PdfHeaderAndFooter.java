@@ -26,20 +26,10 @@ class PdfHeaderAndFooter extends PdfPageEventHelper {
         PdfContentByte cb = writer.getDirectContent();
         Font font = FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.BLACK);
         Phrase footer = new Phrase("Seite "+ ++pageNumber+"\n"+"Erstellt am "+ date +" von "+user, font);
-        Phrase header = new Phrase("Erstellt am "+ date +" von "+user, font);
         ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT,
                 footer,
                 document.right(),
                 document.bottom() + 5, 0);
-//        ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT,
-//                header,
-//                document.right(),
-//                document.top() - 10, 0);
-
-//        BaseColor lineColor = new BaseColor(166,166,166);
-//        cb.setColorStroke(lineColor);
-//        cb.moveTo(Utilities.millimetersToPoints(198), 806);
-//        cb.lineTo(36, 806);
         cb.closePathStroke();
     }
 }

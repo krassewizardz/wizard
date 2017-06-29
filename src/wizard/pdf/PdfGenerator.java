@@ -20,6 +20,7 @@ public class PdfGenerator implements ExportServiceProvider {
     private PdfPTable yearlyTable;
     private ArrayList<wizard.models.Field> fields;
     private Configuration config;
+    private ArrayList<Situation> situationList;
 
     public PdfGenerator(Configuration config){
         this.config = config;
@@ -28,10 +29,12 @@ public class PdfGenerator implements ExportServiceProvider {
     @Override
     public void exportToFile(Report r, String s, User user) throws Exception {
 
+
         report = r;
         fields = new ArrayList<>();
-        try{
-            s = s+"\\PDF.pdf";
+        situationList = new ArrayList<>();
+        try {
+            s = s + "\\PDF.pdf";
             document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(s));
             PdfHeaderAndFooter event = new PdfHeaderAndFooter(user);
@@ -42,38 +45,41 @@ public class PdfGenerator implements ExportServiceProvider {
             createHeader();
             createYearlyViewHeader();
 
-            for(Subject subject: r.getProfession().getSubjects()){
-               createSubject(subject.getName());
-               for(Field field : subject.getFields()){
-                   int min = 1;
-                   int max = 12;
-                   for(Situation situation : field.getSituations()){
-                       if(situation.getEnd() > max){
-                           max = situation.getEnd();
-                       }
-                       if(situation.getStart() < min){
-                           min = situation.getStart();
-                       }
-                   }
-                   fields.add(field);
-                   createYearlyFieldView(field, min, max);
+            for (Subject subject : r.getProfession().getSubjects()) {
+                createSubject(subject.getName());
+                for (Field field : subject.getFields()) {
+                    int min = 1;
+                    int max = 12;
+                    for (Situation situation : field.getSituations()) {
+                        if (situation.getEnd() > max) {
+                            max = situation.getEnd();
+                        }
+                        if (situation.getStart() < min) {
+                            min = situation.getStart();
+                        }
+                    }
+                    createYearlyFieldView(field, min, max);
+                    fields.add(field);
 
-               }
-           }
+                }
+            }
             document.add(yearlyTable);
             document.newPage();
-            for(Subject subject : r.getProfession().getSubjects()){
-              for (Field field : fields) {
-                  for (Situation situation : field.getSituations()) {
-                      createDetailSituationView(situation, field, subject);
-                      document.newPage();
-                  }
-              }
+            for (Subject subject : r.getProfession().getSubjects()) {
+                for (Field field : fields) {
+                    for (Situation situation : field.getSituations()) {
+                        if(!situationList.contains(situation)) {
+                            createDetailSituationView(situation, field, subject);
+                            situationList.add(situation);
+                        }
+                        document.newPage();
+                    }
+                }
             }
 
             document.close();
-        } catch (Exception e){
-            document.close( );
+        } catch (Exception e) {
+            document.close();
             throw e;
         }
     }
@@ -94,20 +100,22 @@ public class PdfGenerator implements ExportServiceProvider {
 
         PdfPTable situationTable = new PdfPTable(10);
         situationTable.setWidthPercentage(100);
-        Font regularFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 9f, Font.NORMAL, BaseColor.BLACK);
+        Font font = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 9f, Font.NORMAL, BaseColor.BLACK);
         Font boldFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 9f, Font.BOLD, BaseColor.BLACK);
+
 
         Phrase subjectPhrase = new Phrase();
         subjectPhrase.add(new Chunk("Fach: ",boldFont));
-        subjectPhrase.add(new Chunk(subject.getName(), regularFont));
+        subjectPhrase.add(new Chunk(subject.getName(), font));
         PdfPCell subjectCell = new PdfPCell(new Phrase(subjectPhrase));
         subjectCell.setColspan(10);
         subjectCell.setBorderColor(lineColor);
         situationTable.addCell(subjectCell);
 
+
         Phrase fieldPhrase = new Phrase();
         fieldPhrase.add(new Chunk("Lernfeld "+field.getId()+": ",boldFont));
-        fieldPhrase.add(new Chunk(situation.getName(), regularFont));
+        fieldPhrase.add(new Chunk(situation.getName(), font));
         PdfPCell fieldCell = new PdfPCell(new Phrase(fieldPhrase));
         fieldCell.setColspan(10);
         fieldCell.setBorderColor(lineColor);
@@ -116,7 +124,7 @@ public class PdfGenerator implements ExportServiceProvider {
 
         Phrase situationPhrase = new Phrase();
         situationPhrase.add(new Chunk("Lernsituation "+situation.getId()+": ",boldFont));
-        situationPhrase.add(new Chunk(situation.getName(), regularFont));
+        situationPhrase.add(new Chunk(situation.getName(), font));
         PdfPCell situationCell = new PdfPCell(new Phrase(situationPhrase));
         situationCell.setColspan(6);
         situationCell.setBorderColor(lineColor);
@@ -124,77 +132,79 @@ public class PdfGenerator implements ExportServiceProvider {
 
         Phrase durationPhrase = new Phrase();
         durationPhrase.add(new Chunk("Dauer: ",boldFont));
-        durationPhrase.add(new Chunk(situation.getDuration()+"UStd", regularFont));
+        durationPhrase.add(new Chunk(situation.getDuration()+"UStd", font));
         PdfPCell durationCell = new PdfPCell(new Phrase(durationPhrase));
         durationCell.setColspan(2);
         durationCell.setBorderColor(lineColor);
         situationTable.addCell(durationCell);
 
-        Phrase idPhrase = new Phrase("ID: "+situation.getId(),regularFont);
+
+        Phrase idPhrase = new Phrase();
+        idPhrase.add(new Chunk("ID: ", boldFont));
+        idPhrase.add(new Chunk (situation.getId()+"", font));
         PdfPCell idCell = new PdfPCell(new Phrase(idPhrase));
-        idCell.setColspan(1);
+        idCell.setColspan(2);
         idCell.setBorderColor(lineColor);
         situationTable.addCell(idCell);
 
-        PdfPCell fillerCell = new PdfPCell();
-        fillerCell.setColspan(1);
-        fillerCell.setBorderColor(lineColor);
-        situationTable.addCell(fillerCell);
+            if(config.isScenario()) {
+                Phrase scenarioPhrase = new Phrase();
+                scenarioPhrase.add(new Chunk("Einstiegsszenario:\n", boldFont));
+                scenarioPhrase.add(new Chunk(htmlToText(situation.getScenario()), font));
+                PdfPCell scenarioCell = new PdfPCell(scenarioPhrase);
+                scenarioCell.setColspan(10);
+                scenarioCell.setBorderColor(lineColor);
+                situationTable.addCell(scenarioCell);
+            }
+            if(config.isOutcome()) {
+                Phrase outcomePhrase = new Phrase();
+                outcomePhrase.add(new Chunk("Handlungsprodukt/Lernergebnis:\n", boldFont));
+                outcomePhrase.add(new Chunk(htmlToText(situation.getOutcome()), font));
+                PdfPCell outcomeCell = new PdfPCell(outcomePhrase);
+                outcomeCell.setColspan(10);
+                outcomeCell.setBorderColor(lineColor);
+                situationTable.addCell(outcomeCell);
+            }
+            if(config.isCompetence()) {
+                Phrase competencesPhrase = new Phrase();
+                competencesPhrase.add(new Chunk("Wesentliche Kompetenzen:\n", boldFont));
+                competencesPhrase.add(new Chunk(htmlToText(situation.getCompetences()), font));
+                PdfPCell competencesCell = new PdfPCell(competencesPhrase);
+                competencesCell.setColspan(10);
+                competencesCell.setBorderColor(lineColor);
+                situationTable.addCell(competencesCell);
+            }
 
+            if(config.isContent()) {
+                Phrase contentPhrase = new Phrase();
+                contentPhrase.add(new Chunk("Inhalte:\n", boldFont));
+                contentPhrase.add(new Chunk(htmlToText(situation.getContent()), font));
+                PdfPCell contentCell = new PdfPCell(contentPhrase);
+                contentCell.setColspan(10);
+                contentCell.setBorderColor(lineColor);
+                situationTable.addCell(contentCell);
+            }
 
-            Phrase scenarioPhrase = new Phrase();
-            scenarioPhrase.add(new Chunk("Einstiegsszenario:\n", boldFont));
-            scenarioPhrase.add(new Chunk(htmlToText(situation.getScenario()), regularFont));
-            PdfPCell scenarioCell = new PdfPCell(scenarioPhrase);
-            scenarioCell.setColspan(10);
-            scenarioCell.setBorderColor(lineColor);
-            situationTable.addCell(scenarioCell);
+if(config.isMaterials()) {
+    Phrase materialPhrase = new Phrase();
+    materialPhrase.add(new Chunk("Unterrichtsmaterialien:\n", boldFont));
+    materialPhrase.add(new Chunk(htmlToText(situation.getMaterials()), font));
+    PdfPCell materialCell = new PdfPCell(materialPhrase);
+    materialCell.setColspan(10);
+    materialCell.setBorderColor(lineColor);
+    situationTable.addCell(materialCell);
+}
 
-            Phrase outcomePhrase = new Phrase();
-            outcomePhrase.add(new Chunk("Handlungsprodukt/Lernergebnis:\n", boldFont));
-            outcomePhrase.add(new Chunk(htmlToText(situation.getOutcome()), regularFont));
-            PdfPCell outcomeCell = new PdfPCell(outcomePhrase);
-            outcomeCell.setColspan(10);
-            outcomeCell.setBorderColor(lineColor);
-            situationTable.addCell(outcomeCell);
-
-            Phrase competencesPhrase = new Phrase();
-            competencesPhrase.add(new Chunk("Wesentliche Kompetenzen:\n", boldFont));
-            competencesPhrase.add(new Chunk(htmlToText(situation.getCompetences()), regularFont));
-            PdfPCell competencesCell = new PdfPCell(competencesPhrase);
-            competencesCell.setColspan(10);
-            competencesCell.setBorderColor(lineColor);
-            situationTable.addCell(competencesCell);
-
-            Phrase contentPhrase = new Phrase();
-            contentPhrase.add(new Chunk("Inhalte:\n", boldFont));
-            contentPhrase.add(new Chunk(htmlToText(situation.getContent()), regularFont));
-            PdfPCell contentCell = new PdfPCell(contentPhrase);
-            contentCell.setColspan(10);
-            contentCell.setBorderColor(lineColor);
-            situationTable.addCell(contentCell);
-
-
-
-            Phrase materialPhrase = new Phrase();
-            materialPhrase.add(new Chunk("Unterrichtsmaterialien:\n", boldFont));
-            materialPhrase.add(new Chunk(htmlToText(situation.getMaterials()), regularFont));
-            PdfPCell materialCell = new PdfPCell(materialPhrase);
-            materialCell.setColspan(10);
-            materialCell.setBorderColor(lineColor);
-            situationTable.addCell(materialCell);
-
-        if(situation.getComments() != null){
+        if(situation.getComments() != null && config.isComments()){
             Phrase organisationPhrase = new Phrase();
             organisationPhrase.add(new Chunk("Organisatorische Hinweise:\n", boldFont));
-            organisationPhrase.add(new Chunk(htmlToText(situation.getComments()), regularFont));
+            organisationPhrase.add(new Chunk(htmlToText(situation.getComments()), font));
             PdfPCell organisationCell = new PdfPCell(organisationPhrase);
             organisationCell.setColspan(10);
             organisationCell.setBorderColor(lineColor);
             situationTable.addCell(organisationCell);
         }
-
-        //if (template.isLerntechnik()) {
+        if (config.isTechniques()) {
             Phrase techniquePhrase = new Phrase();
             String techniqueString= "";
             for (Technique technique: situation.getTechniques()) {
@@ -202,14 +212,14 @@ public class PdfGenerator implements ExportServiceProvider {
                     techniqueString += technique +"\n";
             }
             techniquePhrase.add(new Chunk("Lern- und Arbeitstechniken:\n", boldFont));
-            techniquePhrase.add(new Chunk(htmlToText(techniqueString.toString()), regularFont));
+            techniquePhrase.add(new Chunk(htmlToText(techniqueString.toString()), font));
             PdfPCell techniqueCell = new PdfPCell(techniquePhrase);
             techniqueCell.setColspan(10);
             techniqueCell.setBorderColor(lineColor);
             situationTable.addCell(techniqueCell);
-        //}
+        }
 
-        //if (template.isLeistungsnachweis()) {
+        if(config.isAchievements()){
             Phrase archievementPhrase = new Phrase();
             String archievementStr = "";
             for (Achievement achievement: situation.getAchievements()) {
@@ -217,12 +227,12 @@ public class PdfGenerator implements ExportServiceProvider {
                     archievementStr += achievement+"\n";
             }
             archievementPhrase.add(new Chunk("Einstiegsszenario:\n", boldFont));
-            archievementPhrase.add(new Chunk(htmlToText(archievementStr), regularFont));
+            archievementPhrase.add(new Chunk(htmlToText(archievementStr), font));
             PdfPCell archievementCell = new PdfPCell(archievementPhrase);
             archievementCell.setColspan(10);
             archievementCell.setBorderColor(lineColor);
             situationTable.addCell(archievementCell);
-        //}
+        }
         document.add(situationTable);
     }
 
@@ -293,18 +303,18 @@ public class PdfGenerator implements ExportServiceProvider {
     }
     public void createDetailHeader(String title) throws DocumentException {
         document.open();
-        BaseColor textColor = new BaseColor(120, 163, 232);
+        BaseColor textColor = new BaseColor(53, 53, 53);
         Font subtitleFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 9f, Font.NORMAL, textColor);
         Font titleFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 14f, Font.BOLD, textColor);
         Paragraph titel = new Paragraph(title,titleFont);
         titel.setAlignment(Element.ALIGN_CENTER);
         document.add(titel);
 
-        Paragraph obligatoryInformation = new Paragraph("\nAbteilung: " + report.getDepartment() + "\nAusbildungsberuf: " + report.getProfession().getName()
-                + "\nAusbildungsjahr: " + report.getProfession().getYearOfTraining() + "\nUnterrichtsform: " + report.getTeachingForm() + "\nBildungsgangleitung: "+"\n\n", subtitleFont);
-                /*+ report.getProfession().+"\n\n",subtitleFont)*/
+        Paragraph obligatoryInformation = new Paragraph("\nAbteilung: " + report.getDepartment() + "\nAusbildungsberuf: " + report.getProfession()
+                + "\nAusbildungsjahr: " + report.getProfession().getYearOfTraining() + "\nUnterrichtsform: " + report.getTeachingForm() + "\nBildungsgangleitung: "+ report.getDepartment()+"\n\n", subtitleFont);
         document.add(obligatoryInformation);
     }
+
     public void createHeader() throws DocumentException{
         document.open();
         BaseColor textColor = new BaseColor(120, 163, 232);
@@ -315,10 +325,7 @@ public class PdfGenerator implements ExportServiceProvider {
     }
 
     public void createYearlyViewHeader() throws DocumentException {
-
-
-        BaseColor lineColor = new BaseColor(166,166,166);
-
+        BaseColor lineColor = new BaseColor(53, 53, 53);
         int fullCollSPan = report.getProfession().getSubjects().size();
         Font regularFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 6f, Font.NORMAL, BaseColor.BLACK);
 
@@ -327,8 +334,6 @@ public class PdfGenerator implements ExportServiceProvider {
         weekRow.setBorderColor(lineColor);
         weekRow.setBackgroundColor(BaseColor.WHITE);
         yearlyTable.addCell(weekRow);
-
-
 
         if (report.getTeachingForm().equals("Blockunterricht")) {
             PdfPCell cell1 = new PdfPCell(new Phrase(new Chunk("01", regularFont)));
@@ -395,7 +400,7 @@ public class PdfGenerator implements ExportServiceProvider {
     }
 
     private void createSubject(String subject) throws DocumentException {
-        BaseColor tableColor = new BaseColor(89, 148, 242);
+        BaseColor tableColor = new BaseColor(186, 186, 186);
         BaseColor textColor = new BaseColor(71,71,71);
         BaseColor lineColor = new BaseColor(166,166,166);
         Font greyFont = FontFactory.getFont("c:/windows/fonts/Calibri.ttf", 10f, Font.BOLD, textColor);
