@@ -1,7 +1,6 @@
 package wizard.services;
 
 import wizard.models.User;
-import wizard.repositories.UserRepository;
 import wizard.utility.KeyNotFoundException;
 
 import java.math.BigInteger;
@@ -49,16 +48,19 @@ public class SQLiteAuthenthicationService implements AuthenticationServiceProvid
             e.printStackTrace();
         }
 
-        UserRepository ur = UserRepository.getInstance();
-
-        try {
-            List<User> result = ur.get(UserRepository.Column.PASSWORD, password);
-            if (result.size() == 1) {
-                currentUser = result.get(0);
-                return true;
-            }
-        } catch (Exception e) {
+        List<User> result = SQLiteDBConnection.getInstance().getDBHC().createQuery(
+                "select * from Users " +
+                "where username=:username " +
+                "and password=:password"
+        )
+        .addParameter("username", username)
+        .addParameter("password", password)
+        .executeAndFetch(User.class);
+        if (result.size() == 1) {
+            currentUser = result.get(0);
+            return true;
         }
+
         return false;
     }
 
